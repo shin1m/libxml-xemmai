@@ -2,7 +2,6 @@
 #define LIBXML__XEMMAI__LIBXML_H
 
 #include <xemmai/convert.h>
-#include <xemmai/boolean.h>
 #include <xemmai/array.h>
 #include <xemmai/bytes.h>
 #include <libxml/xmlreader.h>
@@ -16,6 +15,7 @@ namespace xemmai
 
 using ::xemmai::t_object;
 using ::xemmai::t_scan;
+using ::xemmai::t_value;
 using ::xemmai::t_transfer;
 using ::xemmai::t_scoped;
 using ::xemmai::t_slot;
@@ -99,7 +99,7 @@ protected:
 
 	t_proxy(t_object* a_class) : v_session(t_session::f_instance()), v_object(t_object::f_allocate(a_class)), v_n(0)
 	{
-		v_object->v_pointer = this;
+		v_object.f_pointer__(this);
 	}
 	virtual void f_destroy();
 
@@ -111,7 +111,7 @@ public:
 	}
 	t_object* f_object() const
 	{
-		return v_object;
+		return v_object.f_object();
 	}
 };
 
@@ -203,43 +203,43 @@ inline const t_extension* t_extension::f_extension<t_extension>() const
 template<>
 inline t_object* t_extension::f_type<xmlParserSeverities>() const
 {
-	return v_type_parser_severities;
+	return v_type_parser_severities.f_object();
 }
 
 template<>
 inline t_object* t_extension::f_type<xmlTextReaderMode>() const
 {
-	return v_type_parser_severities;
+	return v_type_parser_severities.f_object();
 }
 
 template<>
 inline t_object* t_extension::f_type<xmlParserProperties>() const
 {
-	return v_type_parser_severities;
+	return v_type_parser_severities.f_object();
 }
 
 template<>
 inline t_object* t_extension::f_type<xmlReaderTypes>() const
 {
-	return v_type_parser_severities;
+	return v_type_parser_severities.f_object();
 }
 
 template<>
 inline t_object* t_extension::f_type<t_text_reader>() const
 {
-	return v_type_text_reader;
+	return v_type_text_reader.f_object();
 }
 
 template<>
 inline t_object* t_extension::f_type<t_text_writer>() const
 {
-	return v_type_text_writer;
+	return v_type_text_writer.f_object();
 }
 
 template<>
 inline t_object* t_extension::f_type<t_http>() const
 {
-	return v_type_http;
+	return v_type_http.f_object();
 }
 
 }

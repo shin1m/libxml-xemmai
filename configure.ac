@@ -1,10 +1,10 @@
-AC_INIT([libxml-xemmai], [201001])
+AC_INIT([libxml-xemmai], [201007])
 AM_INIT_AUTOMAKE([foreign nostdinc dist-bzip2 no-dist-gzip])
 AC_CONFIG_SRCDIR([libxml/xemmai/libxml.cc])
 
 PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= 2.7])
-PKG_CHECK_MODULES([XEMMAI], [xemmai-201001], [
-	XEMMAI_MODULE_PATH=`pkg-config --variable=module_path xemmai-201001`
+PKG_CHECK_MODULES([XEMMAI], [xemmai-201007], [
+	XEMMAI_MODULE_PATH=`pkg-config --variable=module_path xemmai-201007`
 ])
 AC_SUBST(XEMMAI_MODULE_PATH)
 
