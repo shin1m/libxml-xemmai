@@ -111,7 +111,7 @@ public:
 	}
 	t_object* f_object() const
 	{
-		return v_object.f_object();
+		return v_object;
 	}
 };
 
@@ -203,43 +203,43 @@ inline const t_extension* t_extension::f_extension<t_extension>() const
 template<>
 inline t_object* t_extension::f_type<xmlParserSeverities>() const
 {
-	return v_type_parser_severities.f_object();
+	return v_type_parser_severities;
 }
 
 template<>
 inline t_object* t_extension::f_type<xmlTextReaderMode>() const
 {
-	return v_type_parser_severities.f_object();
+	return v_type_parser_severities;
 }
 
 template<>
 inline t_object* t_extension::f_type<xmlParserProperties>() const
 {
-	return v_type_parser_severities.f_object();
+	return v_type_parser_severities;
 }
 
 template<>
 inline t_object* t_extension::f_type<xmlReaderTypes>() const
 {
-	return v_type_parser_severities.f_object();
+	return v_type_parser_severities;
 }
 
 template<>
 inline t_object* t_extension::f_type<t_text_reader>() const
 {
-	return v_type_text_reader.f_object();
+	return v_type_text_reader;
 }
 
 template<>
 inline t_object* t_extension::f_type<t_text_writer>() const
 {
-	return v_type_text_writer.f_object();
+	return v_type_text_writer;
 }
 
 template<>
 inline t_object* t_extension::f_type<t_http>() const
 {
-	return v_type_http.f_object();
+	return v_type_http;
 }
 
 }
