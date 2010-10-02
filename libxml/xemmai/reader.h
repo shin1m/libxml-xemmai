@@ -70,7 +70,12 @@ public:
 	}
 	~t_text_reader()
 	{
+		f_free();
+	}
+	void f_free()
+	{
 		xmlFreeTextReader(v_reader);
+		v_reader = NULL;
 	}
 	void f_setup(xmlParserInputBufferPtr a_input, const char* a_uri, const char* a_encoding, int a_options)
 	{

@@ -48,7 +48,12 @@ public:
 	}
 	~t_text_writer()
 	{
+		f_free();
+	}
+	void f_free()
+	{
 		xmlFreeTextWriter(v_writer);
+		v_writer = NULL;
 	}
 	int f_start_document(const std::wstring* a_version, const std::wstring* a_encoding, const std::wstring* a_standalone)
 	{

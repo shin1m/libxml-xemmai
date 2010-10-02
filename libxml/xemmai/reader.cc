@@ -64,6 +64,7 @@ void t_type_of<xmlReaderTypes>::f_define(t_extension* a_extension)
 void t_type_of<t_text_reader>::f_define(t_extension* a_extension)
 {
 	t_define<t_text_reader, t_object>(a_extension, L"TextReader")
+		(L"free", t_member<void (t_text_reader::*)(), &t_text_reader::f_free, t_with_lock_for_write>())
 		(L"read", t_member<bool (t_text_reader::*)(), &t_text_reader::f_read, t_with_lock_for_write>())
 #ifdef LIBXML_WRITER_ENABLED
 		(L"read_inner_xml", t_member<std::wstring (t_text_reader::*)(), &t_text_reader::f_read_inner_xml, t_with_lock_for_write>())
