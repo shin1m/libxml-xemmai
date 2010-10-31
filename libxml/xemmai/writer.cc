@@ -67,9 +67,9 @@ void t_type_of<t_text_writer>::f_finalize(t_object* a_this)
 	delete f_as<t_text_writer*>(a_this);
 }
 
-void t_type_of<t_text_writer>::f_construct(t_object* a_class, size_t a_n, t_stack& a_stack)
+void t_type_of<t_text_writer>::f_construct(t_object* a_class, size_t a_n)
 {
-	t_construct<t_text_writer, const std::wstring&, bool>::f_call(a_class, a_n, a_stack);
+	t_construct<t_text_writer, const std::wstring&, bool>::f_call(a_class, a_n);
 }
 
 }
