@@ -130,11 +130,11 @@ void t_type_of<t_text_reader>::f_finalize(t_object* a_this)
 	delete f_as<t_text_reader*>(a_this);
 }
 
-void t_type_of<t_text_reader>::f_construct(t_object* a_class, size_t a_n)
+void t_type_of<t_text_reader>::f_construct(t_object* a_class, t_slot* a_stack, size_t a_n)
 {
 	t_overload<t_construct<t_text_reader, const std::wstring&>,
 	t_overload<t_construct<t_text_reader, const std::wstring&, const std::wstring&, int>
-	> >::f_call(a_class, a_n);
+	> >::f_call(a_class, a_stack, a_n);
 }
 
 }
