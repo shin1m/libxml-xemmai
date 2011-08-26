@@ -51,9 +51,9 @@ void t_type_of<t_http>::f_finalize(t_object* a_this)
 	delete f_as<t_http*>(a_this);
 }
 
-void t_type_of<t_http>::f_construct(t_object* a_class, t_slot* a_stack, size_t a_n)
+t_transfer t_type_of<t_http>::f_construct(t_object* a_class, t_slot* a_stack, size_t a_n)
 {
-	t_construct<t_http, const std::wstring&>::f_call(a_class, a_stack, a_n);
+	return t_construct<t_http, const std::wstring&>::f_call(a_class, a_stack, a_n);
 }
 
 }
