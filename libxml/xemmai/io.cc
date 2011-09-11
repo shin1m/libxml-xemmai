@@ -36,6 +36,7 @@ namespace xemmai
 void t_type_of<t_http>::f_define(t_extension* a_extension)
 {
 	t_define<t_http, t_object>(a_extension, L"Http")
+		(t_construct<const std::wstring&>())
 		(L"close", t_member<void (t_http::*)(), &t_http::f_close, t_with_lock_for_write>())
 		(L"read", t_member<size_t (t_http::*)(t_bytes&, size_t, size_t), &t_http::f_read, t_with_lock_for_write>())
 	;
@@ -53,7 +54,7 @@ void t_type_of<t_http>::f_finalize(t_object* a_this)
 
 t_transfer t_type_of<t_http>::f_construct(t_object* a_class, t_slot* a_stack, size_t a_n)
 {
-	return t_construct<t_http, const std::wstring&>::f_call(a_class, a_stack, a_n);
+	return t_construct<const std::wstring&>::t_bind<t_http>::f_do(a_class, a_stack, a_n);
 }
 
 }

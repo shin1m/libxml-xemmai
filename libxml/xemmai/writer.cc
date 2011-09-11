@@ -8,6 +8,7 @@ namespace xemmai
 void t_type_of<t_text_writer>::f_define(t_extension* a_extension)
 {
 	t_define<t_text_writer, t_object>(a_extension, L"TextWriter")
+		(t_construct<const std::wstring&, bool>())
 		(L"free", t_member<void (t_text_writer::*)(), &t_text_writer::f_free, t_with_lock_for_write>())
 		(L"start_document", t_member<int (t_text_writer::*)(const std::wstring*, const std::wstring*, const std::wstring*), &t_text_writer::f_start_document, t_with_lock_for_write>())
 		(L"end_document", t_member<int (t_text_writer::*)(), &t_text_writer::f_end_document, t_with_lock_for_write>())
@@ -69,7 +70,7 @@ void t_type_of<t_text_writer>::f_finalize(t_object* a_this)
 
 t_transfer t_type_of<t_text_writer>::f_construct(t_object* a_class, t_slot* a_stack, size_t a_n)
 {
-	return t_construct<t_text_writer, const std::wstring&, bool>::f_call(a_class, a_stack, a_n);
+	return t_construct<const std::wstring&, bool>::t_bind<t_text_writer>::f_do(a_class, a_stack, a_n);
 }
 
 }

@@ -64,6 +64,10 @@ void t_type_of<xmlReaderTypes>::f_define(t_extension* a_extension)
 void t_type_of<t_text_reader>::f_define(t_extension* a_extension)
 {
 	t_define<t_text_reader, t_object>(a_extension, L"TextReader")
+		(
+			t_construct<const std::wstring&>(),
+			t_construct<const std::wstring&, const std::wstring&, int>()
+		)
 		(L"free", t_member<void (t_text_reader::*)(), &t_text_reader::f_free, t_with_lock_for_write>())
 		(L"read", t_member<bool (t_text_reader::*)(), &t_text_reader::f_read, t_with_lock_for_write>())
 #ifdef LIBXML_WRITER_ENABLED
@@ -133,9 +137,9 @@ void t_type_of<t_text_reader>::f_finalize(t_object* a_this)
 t_transfer t_type_of<t_text_reader>::f_construct(t_object* a_class, t_slot* a_stack, size_t a_n)
 {
 	return
-		t_overload<t_construct<t_text_reader, const std::wstring&>,
-		t_overload<t_construct<t_text_reader, const std::wstring&, const std::wstring&, int>
-	> >::f_call(a_class, a_stack, a_n);
+		t_overload<t_construct<const std::wstring&>,
+		t_overload<t_construct<const std::wstring&, const std::wstring&, int>
+	> >::t_bind<t_text_reader>::f_do(a_class, a_stack, a_n);
 }
 
 }
