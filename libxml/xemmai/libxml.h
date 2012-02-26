@@ -1,6 +1,7 @@
 #ifndef LIBXML__XEMMAI__LIBXML_H
 #define LIBXML__XEMMAI__LIBXML_H
 
+#include <cerrno>
 #include <iterator>
 #include <xemmai/convert.h>
 #include <xemmai/array.h>
