@@ -9,7 +9,7 @@ namespace libxml
 namespace xemmai
 {
 
-class t_text_reader
+class t_text_reader : t_utf8_converter
 {
 	xmlTextReaderPtr v_reader;
 
@@ -24,7 +24,7 @@ class t_text_reader
 	bool f_boolean(int a_code)
 	{
 		if (a_code == -1) t_throwable::f_throw(L"error occurred.");
-		return a_code;
+		return a_code != 0;
 	}
 	int f_integer(int a_code)
 	{

@@ -9,7 +9,7 @@ namespace libxml
 namespace xemmai
 {
 
-class t_text_writer
+class t_text_writer : t_utf8_converter
 {
 	xmlTextWriterPtr v_writer;
 

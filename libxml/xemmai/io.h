@@ -9,9 +9,9 @@ namespace libxml
 namespace xemmai
 {
 
-class t_http
+class t_http : t_utf8_converter
 {
-	friend struct t_type_of<t_http>;
+	friend struct xemmai::t_type_of<t_http>;
 
 	void* v_stream;
 

@@ -1,6 +1,7 @@
 #ifndef LIBXML__XEMMAI__LIBXML_H
 #define LIBXML__XEMMAI__LIBXML_H
 
+#include <iterator>
 #include <xemmai/convert.h>
 #include <xemmai/array.h>
 #include <xemmai/bytes.h>
@@ -28,12 +29,94 @@ using ::xemmai::f_global;
 using ::xemmai::t_throwable;
 using ::xemmai::t_array;
 using ::xemmai::t_bytes;
-using ::xemmai::portable::f_convert;
 
 class t_extension;
 class t_text_reader;
 class t_text_writer;
 class t_http;
+
+template<typename C0, typename C1, size_t N = 256>
+class t_converter
+{
+	iconv_t v_cd;
+
+public:
+	t_converter(const char* a_from, const char* a_to) : v_cd(iconv_open(a_to, a_from))
+	{
+	}
+	~t_converter()
+	{
+		iconv_close(v_cd);
+	}
+	template<typename I, typename O>
+	O operator()(I f, I l, O d) const;
+};
+
+template<typename C0, typename C1, size_t N>
+template<typename I, typename O>
+O t_converter<C0, C1, N>::operator()(I f, I l, O d) const
+{
+	char cs0[N];
+	char cs1[N];
+	char* p0 = cs0;
+	while (f != l || p0 > cs0) {
+		while (f != l && p0 + sizeof(C0) <= cs0 + sizeof(cs0)) {
+			*reinterpret_cast<C0*>(p0) = *f;
+			p0 += sizeof(C0);
+			++f;
+		}
+		size_t n0 = p0 - cs0;
+		p0 = cs0;
+		char* p1 = cs1;
+		size_t n1 = sizeof(cs1);
+		do {
+			size_t n = iconv(v_cd, &p0, &n0, &p1, &n1);
+			if (n == static_cast<size_t>(-1)) {
+				if (errno == EILSEQ) {
+					if (n1 < sizeof(C1)) break;
+					*reinterpret_cast<C1*>(p1) = '?';
+					p1 += sizeof(C1);
+					n1 -= sizeof(C1);
+				} else if (errno == EINVAL) {
+					if (p0 > cs0) break;
+				} else {
+					break;
+				}
+				p0 += sizeof(C0);
+				n0 -= sizeof(C0);
+			}
+		} while (n0 > 0);
+		d = std::copy(reinterpret_cast<const C1*>(cs1), reinterpret_cast<const C1*>(p1), d);
+		p0 = std::copy(p0, p0 + n0, static_cast<char*>(cs0));
+	}
+	char* p1 = cs1;
+	size_t n1 = sizeof(cs1);
+	if (iconv(v_cd, NULL, NULL, &p1, &n1) != static_cast<size_t>(-1)) d = std::copy(reinterpret_cast<const C1*>(cs1), reinterpret_cast<const C1*>(p1), d);
+	return d;
+}
+
+class t_utf8_converter
+{
+	t_converter<wchar_t, char> v_encoder;
+	t_converter<char, wchar_t> v_decoder;
+
+public:
+	t_utf8_converter() : v_encoder("wchar_t", "utf-8"), v_decoder("utf-8", "wchar_t")
+	{
+	}
+	std::string f_convert(const std::wstring& a_string) const
+	{
+		std::vector<char> cs;
+		v_encoder(a_string.begin(), a_string.end(), std::back_inserter(cs));
+		return std::string(cs.begin(), cs.end());
+	}
+	std::wstring f_convert(const std::string& a_string) const
+	{
+		std::vector<wchar_t> cs;
+		v_decoder(a_string.begin(), a_string.end(), std::back_inserter(cs));
+		return std::wstring(cs.begin(), cs.end());
+	}
+};
 
 class t_entry
 {
