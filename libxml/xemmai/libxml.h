@@ -18,9 +18,8 @@ namespace xemmai
 using ::xemmai::t_object;
 using ::xemmai::t_scan;
 using ::xemmai::t_value;
-using ::xemmai::t_transfer;
-using ::xemmai::t_scoped;
 using ::xemmai::t_slot;
+using ::xemmai::t_scoped;
 using ::xemmai::t_fundamental;
 using ::xemmai::t_type_of;
 using ::xemmai::f_check;
@@ -98,13 +97,10 @@ O t_converter<C0, C1, N>::operator()(I f, I l, O d) const
 
 class t_utf8_converter
 {
-	t_converter<wchar_t, char> v_encoder;
-	t_converter<char, wchar_t> v_decoder;
+	t_converter<wchar_t, char> v_encoder{"wchar_t", "utf-8"};
+	t_converter<char, wchar_t> v_decoder{"utf-8", "wchar_t"};
 
 public:
-	t_utf8_converter() : v_encoder("wchar_t", "utf-8"), v_decoder("utf-8", "wchar_t")
-	{
-	}
 	std::string f_convert(const std::wstring& a_string) const
 	{
 		std::vector<char> cs;
@@ -133,7 +129,7 @@ protected:
 	{
 		v_previous->v_next = v_next;
 		v_next->v_previous = v_previous;
-		v_previous = v_next = 0;
+		v_previous = v_next = nullptr;
 	}
 
 public:
@@ -173,15 +169,15 @@ protected:
 	{
 		static_cast<t_proxy*>(a_p)->f_destroy();
 	}
-	static t_transfer f_transfer(t_proxy* a_proxy)
+	static t_scoped f_transfer(t_proxy* a_proxy)
 	{
 		++a_proxy->v_n;
 		return a_proxy->v_object;
 	}
 
-	size_t v_n;
+	size_t v_n = 0;
 
-	t_proxy(t_object* a_class) : v_session(t_session::f_instance()), v_object(t_object::f_allocate(a_class)), v_n(0)
+	t_proxy(t_object* a_class) : v_session(t_session::f_instance()), v_object(t_object::f_allocate(a_class))
 	{
 		v_object.f_pointer__(this);
 	}
@@ -212,7 +208,7 @@ class t_extension : public ::xemmai::t_extension
 	t_slot v_type_http;
 
 	template<typename T>
-	void f_type__(const t_transfer& a_type);
+	void f_type__(t_scoped&& a_type);
 
 public:
 	t_extension(t_object* a_module);
@@ -229,7 +225,7 @@ public:
 		return f_global()->f_type<T>();
 	}
 	template<typename T>
-	t_transfer f_as(const T& a_value) const
+	t_scoped f_as(const T& a_value) const
 	{
 		typedef t_type_of<typename t_fundamental<T>::t_type> t;
 		return t::f_transfer(f_extension<typename t::t_extension>(), a_value);
@@ -237,45 +233,45 @@ public:
 };
 
 template<>
-inline void t_extension::f_type__<xmlParserSeverities>(const t_transfer& a_type)
+inline void t_extension::f_type__<xmlParserSeverities>(t_scoped&& a_type)
 {
-	v_type_parser_severities = a_type;
+	v_type_parser_severities = std::move(a_type);
 }
 
 template<>
-inline void t_extension::f_type__<xmlTextReaderMode>(const t_transfer& a_type)
+inline void t_extension::f_type__<xmlTextReaderMode>(t_scoped&& a_type)
 {
-	v_type_parser_severities = a_type;
+	v_type_parser_severities = std::move(a_type);
 }
 
 template<>
-inline void t_extension::f_type__<xmlParserProperties>(const t_transfer& a_type)
+inline void t_extension::f_type__<xmlParserProperties>(t_scoped&& a_type)
 {
-	v_type_parser_severities = a_type;
+	v_type_parser_severities = std::move(a_type);
 }
 
 template<>
-inline void t_extension::f_type__<xmlReaderTypes>(const t_transfer& a_type)
+inline void t_extension::f_type__<xmlReaderTypes>(t_scoped&& a_type)
 {
-	v_type_parser_severities = a_type;
+	v_type_parser_severities = std::move(a_type);
 }
 
 template<>
-inline void t_extension::f_type__<t_text_reader>(const t_transfer& a_type)
+inline void t_extension::f_type__<t_text_reader>(t_scoped&& a_type)
 {
-	v_type_text_reader = a_type;
+	v_type_text_reader = std::move(a_type);
 }
 
 template<>
-inline void t_extension::f_type__<t_text_writer>(const t_transfer& a_type)
+inline void t_extension::f_type__<t_text_writer>(t_scoped&& a_type)
 {
-	v_type_text_writer = a_type;
+	v_type_text_writer = std::move(a_type);
 }
 
 template<>
-inline void t_extension::f_type__<t_http>(const t_transfer& a_type)
+inline void t_extension::f_type__<t_http>(t_scoped&& a_type)
 {
-	v_type_http = a_type;
+	v_type_http = std::move(a_type);
 }
 
 template<>

@@ -33,13 +33,13 @@ t_session::t_session(t_extension* a_extension) : t_entry(false), v_extension(a_e
 t_session::~t_session()
 {
 	while (v_next != this) v_next->f_dispose();
-	v_instance = 0;
+	v_instance = nullptr;
 }
 
 void t_proxy::f_destroy()
 {
 	if (v_previous) f_unlink();
-	v_object = 0;
+	v_object = nullptr;
 }
 
 t_proxy::~t_proxy()
