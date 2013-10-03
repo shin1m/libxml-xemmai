@@ -140,7 +140,7 @@ class t_session : public t_entry
 {
 	friend class t_proxy;
 
-	static XEMMAI__PORTABLE__THREAD t_session* v_instance;
+	static thread_local t_session* v_instance;
 
 	t_extension* v_extension;
 
