@@ -1,9 +1,9 @@
-AC_INIT([libxml-xemmai], [201401])
+AC_INIT([libxml-xemmai], [201402])
 AM_INIT_AUTOMAKE([foreign nostdinc dist-bzip2 no-dist-gzip])
 AC_CONFIG_SRCDIR([libxml/xemmai/libxml.cc])
 
 PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= 2.7])
-XEMMAI_USE=xemmai-201401
+XEMMAI_USE=xemmai-201402
 PKG_CHECK_MODULES([XEMMAI], [${XEMMAI_USE}], [
 	XEMMAI_MODULE_PATH=`pkg-config --variable=module_path ${XEMMAI_USE}`
 ])
