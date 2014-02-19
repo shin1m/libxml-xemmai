@@ -7,7 +7,7 @@ namespace xemmai
 
 void t_type_of<xmlParserSeverities>::f_define(t_extension* a_extension)
 {
-	t_define<xmlParserSeverities, ptrdiff_t>(a_extension, L"ParserSeverities")
+	t_define<xmlParserSeverities, intptr_t>(a_extension, L"ParserSeverities")
 		(L"VALIDITY_WARNING", XML_PARSER_SEVERITY_VALIDITY_WARNING)
 		(L"VALIDITY_ERROR", XML_PARSER_SEVERITY_VALIDITY_ERROR)
 		(L"WARNING", XML_PARSER_SEVERITY_WARNING)
@@ -17,7 +17,7 @@ void t_type_of<xmlParserSeverities>::f_define(t_extension* a_extension)
 
 void t_type_of<xmlTextReaderMode>::f_define(t_extension* a_extension)
 {
-	t_define<xmlTextReaderMode, ptrdiff_t>(a_extension, L"TextReaderMode")
+	t_define<xmlTextReaderMode, intptr_t>(a_extension, L"TextReaderMode")
 		(L"INITIAL", XML_TEXTREADER_MODE_INITIAL)
 		(L"INTERACTIVE", XML_TEXTREADER_MODE_INTERACTIVE)
 		(L"ERROR", XML_TEXTREADER_MODE_ERROR)
@@ -29,7 +29,7 @@ void t_type_of<xmlTextReaderMode>::f_define(t_extension* a_extension)
 
 void t_type_of<xmlParserProperties>::f_define(t_extension* a_extension)
 {
-	t_define<xmlParserProperties, ptrdiff_t>(a_extension, L"ParserProperties")
+	t_define<xmlParserProperties, intptr_t>(a_extension, L"ParserProperties")
 		(L"LOADDTD", XML_PARSER_LOADDTD)
 		(L"DEFAULTATTRS", XML_PARSER_DEFAULTATTRS)
 		(L"VALIDATE", XML_PARSER_VALIDATE)
@@ -39,7 +39,7 @@ void t_type_of<xmlParserProperties>::f_define(t_extension* a_extension)
 
 void t_type_of<xmlReaderTypes>::f_define(t_extension* a_extension)
 {
-	t_define<xmlReaderTypes, ptrdiff_t>(a_extension, L"ReaderTypes")
+	t_define<xmlReaderTypes, intptr_t>(a_extension, L"ReaderTypes")
 		(L"NONE", XML_READER_TYPE_NONE)
 		(L"ELEMENT", XML_READER_TYPE_ELEMENT)
 		(L"ATTRIBUTE", XML_READER_TYPE_ATTRIBUTE)
