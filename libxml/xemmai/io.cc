@@ -1,6 +1,7 @@
 #include "io.h"
 
 #include <xemmai/derived.h>
+#include <xemmai/engine.h>
 
 namespace libxml
 {
@@ -8,8 +9,10 @@ namespace libxml
 namespace xemmai
 {
 
-t_http::t_http(const std::wstring& a_uri) : v_stream(xmlIOHTTPOpen(f_convert(a_uri).c_str()))
+t_http::t_http(const std::wstring& a_uri)
 {
+	t_safe_region region;
+	v_stream = xmlIOHTTPOpen(f_convert(a_uri).c_str());
 }
 
 void t_http::f_close()
@@ -23,6 +26,7 @@ size_t t_http::f_read(t_bytes& a_bytes, size_t a_offset, size_t a_size)
 {
 	if (v_stream == NULL) t_throwable::f_throw(L"already closed.");
 	if (a_offset + a_size > a_bytes.f_size()) t_throwable::f_throw(L"out of range.");
+	t_safe_region region;
 	return xmlIOHTTPRead(v_stream, reinterpret_cast<char*>(&a_bytes[0] + a_offset), a_size);
 }
 

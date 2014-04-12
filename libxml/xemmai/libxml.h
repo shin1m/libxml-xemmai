@@ -29,6 +29,7 @@ using ::xemmai::f_global;
 using ::xemmai::t_throwable;
 using ::xemmai::t_array;
 using ::xemmai::t_bytes;
+using ::xemmai::t_safe_region;
 
 class t_extension;
 class t_text_reader;
