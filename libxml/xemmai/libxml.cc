@@ -22,7 +22,7 @@ void t_entry::f_dispose()
 	f_unlink();
 }
 
-thread_local t_session* t_session::v_instance;
+XEMMAI__PORTABLE__THREAD t_session* t_session::v_instance;
 
 t_session::t_session(t_extension* a_extension) : t_entry(false), v_extension(a_extension)
 {
