@@ -134,7 +134,7 @@ void t_type_of<t_text_reader>::f_finalize(t_object* a_this)
 	delete f_as<t_text_reader*>(a_this);
 }
 
-t_scoped t_type_of<t_text_reader>::f_construct(t_object* a_class, t_slot* a_stack, size_t a_n)
+t_scoped t_type_of<t_text_reader>::f_construct(t_object* a_class, t_scoped* a_stack, size_t a_n)
 {
 	return t_overload<
 		t_construct<const std::wstring&>,
