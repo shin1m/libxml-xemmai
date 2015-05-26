@@ -42,10 +42,6 @@ void t_proxy::f_destroy()
 	v_object = nullptr;
 }
 
-t_proxy::~t_proxy()
-{
-}
-
 namespace
 {
 
