@@ -68,6 +68,7 @@ public:
 	t_text_reader(xmlInputReadCallback a_ioread, xmlInputCloseCallback a_ioclose, void* a_ioctx, const char* a_url, const char* a_encoding, int a_options) : v_reader(xmlReaderForIO(a_ioread, a_ioclose, a_ioctx, a_url, a_encoding, a_options))
 	{
 	}
+	t_text_reader(const t_value& a_read, const t_value& a_close, const std::wstring& a_url, const std::wstring& a_encoding, int a_options);
 	~t_text_reader()
 	{
 		f_free();

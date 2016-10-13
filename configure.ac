@@ -3,6 +3,7 @@ AM_INIT_AUTOMAKE([foreign nostdinc dist-bzip2 no-dist-gzip])
 AC_CONFIG_SRCDIR([libxml/xemmai/libxml.cc])
 
 PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= 2.7])
+PKG_CHECK_MODULES([LIBCURL], [libcurl >= 7.50])
 XEMMAI_USE=xemmai-201610
 PKG_CHECK_MODULES([XEMMAI], [${XEMMAI_USE}], [
 	XEMMAI_MODULE_PATH=`pkg-config --variable=module_path ${XEMMAI_USE}`

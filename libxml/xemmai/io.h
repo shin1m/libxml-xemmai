@@ -2,6 +2,7 @@
 #define LIBXML__XEMMAI__IO_H
 
 #include "libxml.h"
+#include "curl.h"
 
 namespace libxml
 {
@@ -9,19 +10,18 @@ namespace libxml
 namespace xemmai
 {
 
-class t_http : t_utf8_converter
+class t_http : t_utf8_converter, t_curl
 {
 	friend struct xemmai::t_type_of<t_http>;
 
-	void* v_stream;
-
 public:
-	t_http(const std::wstring& a_uri);
-	~t_http()
+	t_http(const std::wstring& a_uri) : t_curl(f_convert(a_uri).c_str())
 	{
-		if (v_stream != NULL) xmlIOHTTPClose(v_stream);
 	}
-	void f_close();
+	void f_close()
+	{
+		t_curl::f_close();
+	}
 	size_t f_read(t_bytes& a_bytes, size_t a_offset, size_t a_size);
 };
 

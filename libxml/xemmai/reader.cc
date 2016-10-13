@@ -1,6 +1,52 @@
 #include "reader.h"
 
+#include <algorithm>
 #include <xemmai/derived.h>
+
+namespace libxml
+{
+
+namespace xemmai
+{
+
+namespace
+{
+
+struct t_context
+{
+	static int f_read(void* a_context, char* a_p, int a_n)
+	{
+		auto p = static_cast<t_context*>(a_context);
+		auto& bytes = f_as<t_bytes&>(p->v_bytes);
+		if (a_n > bytes.f_size()) a_n = bytes.f_size();
+		auto n = p->v_read(p->v_bytes, f_global()->f_as(0), f_global()->f_as(a_n));
+		f_check<int>(n, L"result of read");
+		a_n = f_as<int>(n);
+		std::copy_n(&bytes[0], a_n, a_p);
+		return a_n;
+	}
+	static int f_close(void* a_context)
+	{
+		auto p = static_cast<t_context*>(a_context);
+		p->v_close();
+		delete p;
+		return 0;
+	}
+
+	t_scoped v_read;
+	t_scoped v_close;
+	t_scoped v_bytes = t_bytes::f_instantiate(1024);
+};
+
+}
+
+t_text_reader::t_text_reader(const t_value& a_read, const t_value& a_close, const std::wstring& a_url, const std::wstring& a_encoding, int a_options) : v_reader(xmlReaderForIO(t_context::f_read, t_context::f_close, new t_context{a_read, a_close}, f_convert(a_url).c_str(), f_convert(a_encoding).c_str(), a_options))
+{
+}
+
+}
+
+}
 
 namespace xemmai
 {
@@ -66,7 +112,8 @@ void t_type_of<t_text_reader>::f_define(t_extension* a_extension)
 	t_define<t_text_reader, t_object>(a_extension, L"TextReader")
 		(
 			t_construct<const std::wstring&>(),
-			t_construct<const std::wstring&, const std::wstring&, int>()
+			t_construct<const std::wstring&, const std::wstring&, int>(),
+			t_construct<const t_value&, const t_value&, const std::wstring&, const std::wstring&, int>()
 		)
 		(L"free", t_member<void (t_text_reader::*)(), &t_text_reader::f_free, t_with_lock_for_write>())
 		(L"read", t_member<bool (t_text_reader::*)(), &t_text_reader::f_read, t_with_lock_for_write>())
@@ -138,7 +185,8 @@ t_scoped t_type_of<t_text_reader>::f_construct(t_object* a_class, t_stacked* a_s
 {
 	return t_overload<
 		t_construct<const std::wstring&>,
-		t_construct<const std::wstring&, const std::wstring&, int>
+		t_construct<const std::wstring&, const std::wstring&, int>,
+		t_construct<const t_value&, const t_value&, const std::wstring&, const std::wstring&, int>
 	>::t_bind<t_text_reader>::f_do(a_class, a_stack, a_n);
 }
 
