@@ -1,12 +1,12 @@
-#ifndef LIBXML__XEMMAI__WRITER_H
-#define LIBXML__XEMMAI__WRITER_H
+#ifndef XEMMAIX__LIBXML__WRITER_H
+#define XEMMAIX__LIBXML__WRITER_H
 
 #include "libxml.h"
 
-namespace libxml
+namespace xemmaix
 {
 
-namespace xemmai
+namespace libxml
 {
 
 class t_text_writer : t_utf8_converter
@@ -404,12 +404,10 @@ public:
 namespace xemmai
 {
 
-using libxml::xemmai::t_text_writer;
-
 template<>
-struct t_type_of<t_text_writer> : t_type
+struct t_type_of<xemmaix::libxml::t_text_writer> : t_type
 {
-	typedef libxml::xemmai::t_extension t_extension;
+	typedef xemmaix::libxml::t_extension t_extension;
 
 	static void f_define(t_extension* a_extension);
 

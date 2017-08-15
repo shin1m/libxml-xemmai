@@ -1,13 +1,13 @@
-#ifndef LIBXML__XEMMAI__IO_H
-#define LIBXML__XEMMAI__IO_H
+#ifndef XEMMAIX__LIBXML__IO_H
+#define XEMMAIX__LIBXML__IO_H
 
 #include "libxml.h"
 #include "curl.h"
 
-namespace libxml
+namespace xemmaix
 {
 
-namespace xemmai
+namespace libxml
 {
 
 class t_http : t_utf8_converter, t_curl
@@ -32,12 +32,10 @@ public:
 namespace xemmai
 {
 
-using libxml::xemmai::t_http;
-
 template<>
-struct t_type_of<t_http> : t_type
+struct t_type_of<xemmaix::libxml::t_http> : t_type
 {
-	typedef libxml::xemmai::t_extension t_extension;
+	typedef xemmaix::libxml::t_extension t_extension;
 
 	static void f_define(t_extension* a_extension);
 

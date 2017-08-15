@@ -1,5 +1,5 @@
-#ifndef LIBXML__XEMMAI__LIBXML_H
-#define LIBXML__XEMMAI__LIBXML_H
+#ifndef XEMMAIX__LIBXML__LIBXML_H
+#define XEMMAIX__LIBXML__LIBXML_H
 
 #include <codecvt>
 #include <iterator>
@@ -10,27 +10,13 @@
 #include <libxml/xmlreader.h>
 #include <libxml/xmlwriter.h>
 
+namespace xemmaix
+{
+
 namespace libxml
 {
 
-namespace xemmai
-{
-
-using ::xemmai::t_object;
-using ::xemmai::t_scan;
-using ::xemmai::t_value;
-using ::xemmai::t_slot;
-using ::xemmai::t_scoped;
-using ::xemmai::t_fundamental;
-using ::xemmai::t_type_of;
-using ::xemmai::f_check;
-using ::xemmai::f_as;
-using ::xemmai::t_define;
-using ::xemmai::f_global;
-using ::xemmai::t_throwable;
-using ::xemmai::t_array;
-using ::xemmai::t_bytes;
-using ::xemmai::t_safe_region;
+using namespace xemmai;
 
 class t_extension;
 class t_text_reader;
@@ -132,9 +118,9 @@ public:
 	}
 };
 
-class t_extension : public ::xemmai::t_extension
+class t_extension : public xemmai::t_extension
 {
-	template<typename T, typename T_super> friend class t_define;
+	template<typename T, typename T_super> friend class xemmai::t_define;
 
 	t_slot v_type_parser_severities;
 	t_slot v_type_text_reader_mode;

@@ -1,12 +1,12 @@
-#ifndef LIBXML__XEMMAI__READER_H
-#define LIBXML__XEMMAI__READER_H
+#ifndef XEMMAIX__LIBXML__READER_H
+#define XEMMAIX__LIBXML__READER_H
 
 #include "libxml.h"
 
-namespace libxml
+namespace xemmaix
 {
 
-namespace xemmai
+namespace libxml
 {
 
 class t_text_reader : t_utf8_converter
@@ -361,10 +361,8 @@ public:
 namespace xemmai
 {
 
-using libxml::xemmai::t_text_reader;
-
 template<>
-struct t_type_of<xmlParserSeverities> : t_enum_of<xmlParserSeverities, libxml::xemmai::t_extension>
+struct t_type_of<xmlParserSeverities> : t_enum_of<xmlParserSeverities, xemmaix::libxml::t_extension>
 {
 	static void f_define(t_extension* a_extension);
 
@@ -372,7 +370,7 @@ struct t_type_of<xmlParserSeverities> : t_enum_of<xmlParserSeverities, libxml::x
 };
 
 template<>
-struct t_type_of<xmlTextReaderMode> : t_enum_of<xmlTextReaderMode, libxml::xemmai::t_extension>
+struct t_type_of<xmlTextReaderMode> : t_enum_of<xmlTextReaderMode, xemmaix::libxml::t_extension>
 {
 	static void f_define(t_extension* a_extension);
 
@@ -380,7 +378,7 @@ struct t_type_of<xmlTextReaderMode> : t_enum_of<xmlTextReaderMode, libxml::xemma
 };
 
 template<>
-struct t_type_of<xmlParserProperties> : t_enum_of<xmlParserProperties, libxml::xemmai::t_extension>
+struct t_type_of<xmlParserProperties> : t_enum_of<xmlParserProperties, xemmaix::libxml::t_extension>
 {
 	static void f_define(t_extension* a_extension);
 
@@ -388,7 +386,7 @@ struct t_type_of<xmlParserProperties> : t_enum_of<xmlParserProperties, libxml::x
 };
 
 template<>
-struct t_type_of<xmlReaderTypes> : t_enum_of<xmlReaderTypes, libxml::xemmai::t_extension>
+struct t_type_of<xmlReaderTypes> : t_enum_of<xmlReaderTypes, xemmaix::libxml::t_extension>
 {
 	static void f_define(t_extension* a_extension);
 
@@ -396,9 +394,9 @@ struct t_type_of<xmlReaderTypes> : t_enum_of<xmlReaderTypes, libxml::xemmai::t_e
 };
 
 template<>
-struct t_type_of<t_text_reader> : t_type
+struct t_type_of<xemmaix::libxml::t_text_reader> : t_type
 {
-	typedef libxml::xemmai::t_extension t_extension;
+	typedef xemmaix::libxml::t_extension t_extension;
 
 	static void f_define(t_extension* a_extension);
 

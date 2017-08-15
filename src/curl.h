@@ -1,15 +1,15 @@
-#ifndef LIBXML__XEMMAI__CURL_H
-#define LIBXML__XEMMAI__CURL_H
+#ifndef XEMMAIX__LIBXML__CURL_H
+#define XEMMAIX__LIBXML__CURL_H
 
 #include <algorithm>
 #include <deque>
 #include <stdexcept>
 #include <curl/curl.h>
 
-namespace libxml
+namespace xemmaix
 {
 
-namespace xemmai
+namespace libxml
 {
 
 class t_curl

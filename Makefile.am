@@ -1,1 +1,1 @@
-SUBDIRS = libxml/xemmai
+SUBDIRS = src
