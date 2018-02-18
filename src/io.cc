@@ -3,10 +3,7 @@
 #include <xemmai/derived.h>
 #include <xemmai/engine.h>
 
-namespace xemmaix
-{
-
-namespace libxml
+namespace xemmaix::libxml
 {
 
 size_t t_http::f_read(t_bytes& a_bytes, size_t a_offset, size_t a_size)
@@ -14,8 +11,6 @@ size_t t_http::f_read(t_bytes& a_bytes, size_t a_offset, size_t a_size)
 	if (a_offset + a_size > a_bytes.f_size()) t_throwable::f_throw(L"out of range.");
 	t_safe_region region;
 	return t_curl::f_read(reinterpret_cast<char*>(&a_bytes[0] + a_offset), a_size);
-}
-
 }
 
 }

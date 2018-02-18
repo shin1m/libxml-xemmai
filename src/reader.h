@@ -3,10 +3,7 @@
 
 #include "libxml.h"
 
-namespace xemmaix
-{
-
-namespace libxml
+namespace xemmaix::libxml
 {
 
 class t_text_reader : t_utf8_converter
@@ -353,8 +350,6 @@ public:
 		xmlTextReaderGetErrorHandler(v_reader, a_function, a_argument);
 	}
 };
-
-}
 
 }
 

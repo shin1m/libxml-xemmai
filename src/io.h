@@ -4,10 +4,7 @@
 #include "libxml.h"
 #include "curl.h"
 
-namespace xemmaix
-{
-
-namespace libxml
+namespace xemmaix::libxml
 {
 
 class t_http : t_utf8_converter, t_curl
@@ -24,8 +21,6 @@ public:
 	}
 	size_t f_read(t_bytes& a_bytes, size_t a_offset, size_t a_size);
 };
-
-}
 
 }
 

@@ -10,10 +10,7 @@
 #include <libxml/xmlreader.h>
 #include <libxml/xmlwriter.h>
 
-namespace xemmaix
-{
-
-namespace libxml
+namespace xemmaix::libxml
 {
 
 using namespace xemmai;
@@ -243,8 +240,6 @@ template<>
 inline t_object* t_extension::f_type<t_http>() const
 {
 	return v_type_http;
-}
-
 }
 
 }

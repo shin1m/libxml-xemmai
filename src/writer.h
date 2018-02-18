@@ -3,10 +3,7 @@
 
 #include "libxml.h"
 
-namespace xemmaix
-{
-
-namespace libxml
+namespace xemmaix::libxml
 {
 
 class t_text_writer : t_utf8_converter
@@ -396,8 +393,6 @@ public:
 		return f_integer(xmlTextWriterFlush(v_writer));
 	}
 };
-
-}
 
 }
 

@@ -3,10 +3,7 @@
 #include <algorithm>
 #include <xemmai/derived.h>
 
-namespace xemmaix
-{
-
-namespace libxml
+namespace xemmaix::libxml
 {
 
 namespace
@@ -42,8 +39,6 @@ struct t_context
 
 t_text_reader::t_text_reader(const t_value& a_read, const t_value& a_close, const std::wstring& a_url, const std::wstring& a_encoding, int a_options) : v_reader(xmlReaderForIO(t_context::f_read, t_context::f_close, new t_context{a_read, a_close}, f_convert(a_url).c_str(), f_convert(a_encoding).c_str(), a_options))
 {
-}
-
 }
 
 }

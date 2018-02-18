@@ -2,16 +2,11 @@
 #include "writer.h"
 #include "io.h"
 
-namespace xemmaix
+namespace xemmaix::libxml
 {
 
-namespace libxml
+t_entry::t_entry() : v_previous(t_session::f_instance()), v_next(v_previous->v_next)
 {
-
-t_entry::t_entry()
-{
-	v_previous = t_session::f_instance();
-	v_next = v_previous->v_next;
 	v_previous->v_next = v_next->v_previous = this;
 }
 
@@ -78,8 +73,6 @@ void t_extension::f_scan(t_scan a_scan)
 	a_scan(v_type_text_reader);
 	a_scan(v_type_text_writer);
 	a_scan(v_type_http);
-}
-
 }
 
 }

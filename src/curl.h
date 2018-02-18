@@ -6,10 +6,7 @@
 #include <stdexcept>
 #include <curl/curl.h>
 
-namespace xemmaix
-{
-
-namespace libxml
+namespace xemmaix::libxml
 {
 
 class t_curl
@@ -22,13 +19,13 @@ class t_curl
 		return a_size;
 	}
 
-	CURL* v_curl;
-	CURLM* v_curlm;
+	CURL* v_curl = curl_easy_init();
+	CURLM* v_curlm = curl_multi_init();
 	std::deque<char> v_buffer;
 	int v_running;
 
 public:
-	t_curl(const char* a_url) : v_curl(curl_easy_init()), v_curlm(curl_multi_init())
+	t_curl(const char* a_url)
 	{
 		curl_easy_setopt(v_curl, CURLOPT_WRITEFUNCTION, f_write);
 		curl_easy_setopt(v_curl, CURLOPT_WRITEDATA, this);
@@ -70,8 +67,6 @@ public:
 		return a_n;
 	}
 };
-
-}
 
 }
 
