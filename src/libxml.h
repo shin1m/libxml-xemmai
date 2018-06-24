@@ -97,7 +97,7 @@ protected:
 
 	size_t v_n = 0;
 
-	t_proxy(t_object* a_class) : v_session(t_session::f_instance()), v_object(t_object::f_allocate(a_class))
+	t_proxy(t_type* a_class) : v_session(t_session::f_instance()), v_object(t_object::f_allocate(a_class))
 	{
 		v_object.f_pointer__(this);
 	}
@@ -117,18 +117,13 @@ public:
 
 class t_extension : public xemmai::t_extension
 {
-	template<typename T, typename T_super> friend class xemmai::t_define;
-
-	t_slot v_type_parser_severities;
-	t_slot v_type_text_reader_mode;
-	t_slot v_type_parser_properties;
-	t_slot v_type_reader_types;
-	t_slot v_type_text_reader;
-	t_slot v_type_text_writer;
-	t_slot v_type_http;
-
-	template<typename T>
-	void f_type__(t_scoped&& a_type);
+	t_slot_of<t_type> v_type_parser_severities;
+	t_slot_of<t_type> v_type_text_reader_mode;
+	t_slot_of<t_type> v_type_parser_properties;
+	t_slot_of<t_type> v_type_reader_types;
+	t_slot_of<t_type> v_type_text_reader;
+	t_slot_of<t_type> v_type_text_writer;
+	t_slot_of<t_type> v_type_http;
 
 public:
 	t_extension(t_object* a_module);
@@ -140,9 +135,14 @@ public:
 		return f_global();
 	}
 	template<typename T>
-	t_object* f_type() const
+	t_slot_of<t_type>& f_type_slot()
 	{
-		return f_global()->f_type<T>();
+		return f_global()->f_type_slot<T>();
+	}
+	template<typename T>
+	t_type* f_type() const
+	{
+		return const_cast<t_extension*>(this)->f_type_slot<T>();
 	}
 	template<typename T>
 	t_scoped f_as(T&& a_value) const
@@ -153,91 +153,49 @@ public:
 };
 
 template<>
-inline void t_extension::f_type__<xmlParserSeverities>(t_scoped&& a_type)
-{
-	v_type_parser_severities = std::move(a_type);
-}
-
-template<>
-inline void t_extension::f_type__<xmlTextReaderMode>(t_scoped&& a_type)
-{
-	v_type_parser_severities = std::move(a_type);
-}
-
-template<>
-inline void t_extension::f_type__<xmlParserProperties>(t_scoped&& a_type)
-{
-	v_type_parser_severities = std::move(a_type);
-}
-
-template<>
-inline void t_extension::f_type__<xmlReaderTypes>(t_scoped&& a_type)
-{
-	v_type_parser_severities = std::move(a_type);
-}
-
-template<>
-inline void t_extension::f_type__<t_text_reader>(t_scoped&& a_type)
-{
-	v_type_text_reader = std::move(a_type);
-}
-
-template<>
-inline void t_extension::f_type__<t_text_writer>(t_scoped&& a_type)
-{
-	v_type_text_writer = std::move(a_type);
-}
-
-template<>
-inline void t_extension::f_type__<t_http>(t_scoped&& a_type)
-{
-	v_type_http = std::move(a_type);
-}
-
-template<>
 inline const t_extension* t_extension::f_extension<t_extension>() const
 {
 	return this;
 }
 
 template<>
-inline t_object* t_extension::f_type<xmlParserSeverities>() const
+inline t_slot_of<t_type>& t_extension::f_type_slot<xmlParserSeverities>()
 {
 	return v_type_parser_severities;
 }
 
 template<>
-inline t_object* t_extension::f_type<xmlTextReaderMode>() const
+inline t_slot_of<t_type>& t_extension::f_type_slot<xmlTextReaderMode>()
 {
-	return v_type_parser_severities;
+	return v_type_text_reader_mode;
 }
 
 template<>
-inline t_object* t_extension::f_type<xmlParserProperties>() const
+inline t_slot_of<t_type>& t_extension::f_type_slot<xmlParserProperties>()
 {
-	return v_type_parser_severities;
+	return v_type_parser_properties;
 }
 
 template<>
-inline t_object* t_extension::f_type<xmlReaderTypes>() const
+inline t_slot_of<t_type>& t_extension::f_type_slot<xmlReaderTypes>()
 {
-	return v_type_parser_severities;
+	return v_type_reader_types;
 }
 
 template<>
-inline t_object* t_extension::f_type<t_text_reader>() const
+inline t_slot_of<t_type>& t_extension::f_type_slot<t_text_reader>()
 {
 	return v_type_text_reader;
 }
 
 template<>
-inline t_object* t_extension::f_type<t_text_writer>() const
+inline t_slot_of<t_type>& t_extension::f_type_slot<t_text_writer>()
 {
 	return v_type_text_writer;
 }
 
 template<>
-inline t_object* t_extension::f_type<t_http>() const
+inline t_slot_of<t_type>& t_extension::f_type_slot<t_http>()
 {
 	return v_type_http;
 }
