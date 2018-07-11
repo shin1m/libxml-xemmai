@@ -28,16 +28,6 @@ void t_type_of<xemmaix::libxml::t_http>::f_define(t_extension* a_extension)
 	;
 }
 
-t_type* t_type_of<xemmaix::libxml::t_http>::f_derive()
-{
-	return new t_derived<t_type_of>(v_module, this);
-}
-
-void t_type_of<xemmaix::libxml::t_http>::f_finalize(t_object* a_this)
-{
-	delete &f_as<xemmaix::libxml::t_http&>(a_this);
-}
-
 t_scoped t_type_of<xemmaix::libxml::t_http>::f_construct(t_stacked* a_stack, size_t a_n)
 {
 	return t_construct<const std::wstring&>::t_bind<xemmaix::libxml::t_http>::f_do(this, a_stack, a_n);

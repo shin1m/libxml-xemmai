@@ -1,10 +1,10 @@
-AC_INIT([libxml-xemmai], [201806])
+AC_INIT([libxml-xemmai], [201807])
 AM_INIT_AUTOMAKE([foreign nostdinc dist-bzip2 no-dist-gzip])
 AC_CONFIG_SRCDIR([src/libxml.cc])
 
 PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= 2.7])
 PKG_CHECK_MODULES([LIBCURL], [libcurl >= 7.50])
-XEMMAI_USE=xemmai-201806
+XEMMAI_USE=xemmai-201807
 PKG_CHECK_MODULES([XEMMAI], [${XEMMAI_USE}], [
 	XEMMAI_MODULE_PATH=`pkg-config --variable=module_path ${XEMMAI_USE}`
 ])

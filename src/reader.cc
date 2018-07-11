@@ -167,16 +167,6 @@ void t_type_of<xemmaix::libxml::t_text_reader>::f_define(t_extension* a_extensio
 	;
 }
 
-t_type* t_type_of<xemmaix::libxml::t_text_reader>::f_derive()
-{
-	return new t_derived<t_type_of>(v_module, this);
-}
-
-void t_type_of<xemmaix::libxml::t_text_reader>::f_finalize(t_object* a_this)
-{
-	delete &f_as<xemmaix::libxml::t_text_reader&>(a_this);
-}
-
 t_scoped t_type_of<xemmaix::libxml::t_text_reader>::f_construct(t_stacked* a_stack, size_t a_n)
 {
 	return t_overload<
