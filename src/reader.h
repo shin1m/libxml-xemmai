@@ -16,16 +16,16 @@ class t_text_reader : t_utf8_converter
 	}
 	void f_void(int a_code)
 	{
-		if (a_code != 0) t_throwable::f_throw(L"error occurred.");
+		if (a_code != 0) f_throw(L"error occurred.");
 	}
 	bool f_boolean(int a_code)
 	{
-		if (a_code == -1) t_throwable::f_throw(L"error occurred.");
+		if (a_code == -1) f_throw(L"error occurred.");
 		return a_code != 0;
 	}
 	int f_integer(int a_code)
 	{
-		if (a_code == -1) t_throwable::f_throw(L"error occurred.");
+		if (a_code == -1) f_throw(L"error occurred.");
 		return a_code;
 	}
 	std::wstring f_string(const xmlChar* a_p)
@@ -396,7 +396,7 @@ struct t_type_of<xemmaix::libxml::t_text_reader> : t_derivable<t_holds<xemmaix::
 	static void f_define(t_extension* a_extension);
 
 	using t_base::t_base;
-	virtual t_scoped f_construct(t_stacked* a_stack, size_t a_n);
+	t_scoped f_do_construct(t_stacked* a_stack, size_t a_n);
 };
 
 }

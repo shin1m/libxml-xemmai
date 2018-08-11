@@ -167,7 +167,7 @@ void t_type_of<xemmaix::libxml::t_text_reader>::f_define(t_extension* a_extensio
 	;
 }
 
-t_scoped t_type_of<xemmaix::libxml::t_text_reader>::f_construct(t_stacked* a_stack, size_t a_n)
+t_scoped t_type_of<xemmaix::libxml::t_text_reader>::f_do_construct(t_stacked* a_stack, size_t a_n)
 {
 	return t_overload<
 		t_construct<const std::wstring&>,

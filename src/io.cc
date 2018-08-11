@@ -8,7 +8,7 @@ namespace xemmaix::libxml
 
 size_t t_http::f_read(t_bytes& a_bytes, size_t a_offset, size_t a_size)
 {
-	if (a_offset + a_size > a_bytes.f_size()) t_throwable::f_throw(L"out of range.");
+	if (a_offset + a_size > a_bytes.f_size()) f_throw(L"out of range.");
 	t_safe_region region;
 	return t_curl::f_read(reinterpret_cast<char*>(&a_bytes[0] + a_offset), a_size);
 }
@@ -28,7 +28,7 @@ void t_type_of<xemmaix::libxml::t_http>::f_define(t_extension* a_extension)
 	;
 }
 
-t_scoped t_type_of<xemmaix::libxml::t_http>::f_construct(t_stacked* a_stack, size_t a_n)
+t_scoped t_type_of<xemmaix::libxml::t_http>::f_do_construct(t_stacked* a_stack, size_t a_n)
 {
 	return t_construct<const std::wstring&>::t_bind<xemmaix::libxml::t_http>::f_do(this, a_stack, a_n);
 }

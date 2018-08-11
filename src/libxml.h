@@ -67,7 +67,7 @@ class t_session : public t_entry
 public:
 	static t_session* f_instance()
 	{
-		if (!v_instance) t_throwable::f_throw(L"must be inside main.");
+		if (!v_instance) f_throw(L"must be inside main.");
 		return v_instance;
 	}
 

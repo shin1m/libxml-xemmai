@@ -19,7 +19,7 @@ XEMMAI__PORTABLE__THREAD t_session* t_session::v_instance;
 
 t_session::t_session(t_extension* a_extension) : t_entry(false), v_extension(a_extension)
 {
-	if (v_instance) t_throwable::f_throw(L"already inside main.");
+	if (v_instance) f_throw(L"already inside main.");
 	v_instance = this;
 }
 
