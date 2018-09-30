@@ -12,7 +12,7 @@ class t_http : t_utf8_converter, t_curl
 	friend struct xemmai::t_type_of<t_http>;
 
 public:
-	t_http(const std::wstring& a_uri) : t_curl(f_convert(a_uri).c_str())
+	t_http(std::wstring_view a_uri) : t_curl(f_convert(a_uri).c_str())
 	{
 	}
 	void f_close()

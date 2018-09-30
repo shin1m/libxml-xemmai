@@ -16,16 +16,16 @@ class t_text_reader : t_utf8_converter
 	}
 	void f_void(int a_code)
 	{
-		if (a_code != 0) f_throw(L"error occurred.");
+		if (a_code != 0) f_throw(L"error occurred."sv);
 	}
 	bool f_boolean(int a_code)
 	{
-		if (a_code == -1) f_throw(L"error occurred.");
+		if (a_code == -1) f_throw(L"error occurred."sv);
 		return a_code != 0;
 	}
 	int f_integer(int a_code)
 	{
-		if (a_code == -1) f_throw(L"error occurred.");
+		if (a_code == -1) f_throw(L"error occurred."sv);
 		return a_code;
 	}
 	std::wstring f_string(const xmlChar* a_p)
@@ -41,10 +41,10 @@ class t_text_reader : t_utf8_converter
 	}
 
 public:
-	t_text_reader(xmlParserInputBufferPtr a_input, const std::wstring& a_uri) : v_reader(xmlNewTextReader(a_input, f_convert(a_uri).c_str()))
+	t_text_reader(xmlParserInputBufferPtr a_input, std::wstring_view a_uri) : v_reader(xmlNewTextReader(a_input, f_convert(a_uri).c_str()))
 	{
 	}
-	t_text_reader(const std::wstring& a_uri) : v_reader(xmlNewTextReaderFilename(f_convert(a_uri).c_str()))
+	t_text_reader(std::wstring_view a_uri) : v_reader(xmlNewTextReaderFilename(f_convert(a_uri).c_str()))
 	{
 	}
 	t_text_reader(xmlDocPtr a_document) : v_reader(xmlReaderWalker(a_document))
@@ -53,7 +53,7 @@ public:
 	t_text_reader(const xmlChar* a_current, const char* a_url, const char* a_encoding, int a_options) : v_reader(xmlReaderForDoc(a_current, a_url, a_encoding, a_options))
 	{
 	}
-	t_text_reader(const std::wstring& a_filename, const std::wstring& a_encoding, int a_options) : v_reader(xmlReaderForFile(f_convert(a_filename).c_str(), f_convert(a_encoding).c_str(), a_options))
+	t_text_reader(std::wstring_view a_filename, std::wstring_view a_encoding, int a_options) : v_reader(xmlReaderForFile(f_convert(a_filename).c_str(), f_convert(a_encoding).c_str(), a_options))
 	{
 	}
 	t_text_reader(const char* a_buffer, int a_size, const char* a_url, const char* a_encoding, int a_options) : v_reader(xmlReaderForMemory(a_buffer, a_size, a_url, a_encoding, a_options))
@@ -65,7 +65,7 @@ public:
 	t_text_reader(xmlInputReadCallback a_ioread, xmlInputCloseCallback a_ioclose, void* a_ioctx, const char* a_url, const char* a_encoding, int a_options) : v_reader(xmlReaderForIO(a_ioread, a_ioclose, a_ioctx, a_url, a_encoding, a_options))
 	{
 	}
-	t_text_reader(const t_value& a_read, const t_value& a_close, const std::wstring& a_url, const std::wstring& a_encoding, int a_options);
+	t_text_reader(const t_value& a_read, const t_value& a_close, std::wstring_view a_url, std::wstring_view a_encoding, int a_options);
 	~t_text_reader()
 	{
 		f_free();
@@ -181,11 +181,11 @@ public:
 	{
 		return f_string(xmlTextReaderGetAttributeNo(v_reader, a_no));
 	}
-	std::wstring f_get_attribute(const std::wstring& a_name)
+	std::wstring f_get_attribute(std::wstring_view a_name)
 	{
 		return f_string(xmlTextReaderGetAttribute(v_reader, f_cast(f_convert(a_name))));
 	}
-	std::wstring f_get_attribute_ns(const std::wstring& a_name, const std::wstring& a_uri)
+	std::wstring f_get_attribute_ns(std::wstring_view a_name, std::wstring_view a_uri)
 	{
 		return f_string(xmlTextReaderGetAttributeNs(v_reader, f_cast(f_convert(a_name)), f_cast(f_convert(a_uri))));
 	}
@@ -193,7 +193,7 @@ public:
 	{
 		return xmlTextReaderGetRemainder(v_reader);
 	}
-	std::wstring f_lookup_namespace(const std::wstring& a_prefix)
+	std::wstring f_lookup_namespace(std::wstring_view a_prefix)
 	{
 		return f_string(xmlTextReaderLookupNamespace(v_reader, f_cast(f_convert(a_prefix))));
 	}
@@ -201,11 +201,11 @@ public:
 	{
 		return f_boolean(xmlTextReaderMoveToAttributeNo(v_reader, a_no));
 	}
-	bool f_move_to_attribute(const std::wstring& a_name)
+	bool f_move_to_attribute(std::wstring_view a_name)
 	{
 		return f_boolean(xmlTextReaderMoveToAttribute(v_reader, f_cast(f_convert(a_name))));
 	}
-	bool f_move_to_attribute_ns(const std::wstring& a_name, const std::wstring& a_uri)
+	bool f_move_to_attribute_ns(std::wstring_view a_name, std::wstring_view a_uri)
 	{
 		return f_boolean(xmlTextReaderMoveToAttributeNs(v_reader, f_cast(f_convert(a_name)), f_cast(f_convert(a_uri))));
 	}
@@ -280,7 +280,7 @@ public:
 		return f_boolean(xmlTextReaderIsValid(v_reader));
 	}
 #ifdef LIBXML_SCHEMAS_ENABLED
-	void f_relax_ng_validate(const std::wstring& a_rng)
+	void f_relax_ng_validate(std::wstring_view a_rng)
 	{
 		f_void(xmlTextReaderRelaxNGValidate(v_reader, f_convert(a_rng).c_str()));
 	}
@@ -288,7 +288,7 @@ public:
 	{
 		f_void(xmlTextReaderRelaxNGSetSchema(v_reader, a_schema));
 	}
-	void f_schema_validate(const std::wstring& a_xsd)
+	void f_schema_validate(std::wstring_view a_xsd)
 	{
 		f_void(xmlTextReaderSchemaValidate(v_reader, f_convert(a_xsd).c_str()));
 	}
@@ -321,7 +321,7 @@ public:
 	{
 		f_void(xmlReaderNewDoc(v_reader, a_current, a_url, a_encoding, a_options));
 	}
-	void f_new_file(const std::wstring& a_filename, const std::wstring& a_encoding, int a_options)
+	void f_new_file(std::wstring_view a_filename, std::wstring_view a_encoding, int a_options)
 	{
 		f_void(xmlReaderNewFile(v_reader, f_convert(a_filename).c_str(), f_convert(a_encoding).c_str(), a_options));
 	}

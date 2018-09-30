@@ -19,7 +19,7 @@ XEMMAI__PORTABLE__THREAD t_session* t_session::v_instance;
 
 t_session::t_session(t_extension* a_extension) : t_entry(false), v_extension(a_extension)
 {
-	if (v_instance) f_throw(L"already inside main.");
+	if (v_instance) f_throw(L"already inside main."sv);
 	v_instance = this;
 }
 
@@ -56,7 +56,7 @@ t_extension::t_extension(t_object* a_module) : xemmai::t_extension(a_module)
 	t_type_of<t_text_reader>::f_define(this);
 	t_type_of<t_text_writer>::f_define(this);
 	t_type_of<t_http>::f_define(this);
-	f_define<void(*)(t_extension*, const t_value&), f_main>(this, L"main");
+	f_define<void(*)(t_extension*, const t_value&), f_main>(this, L"main"sv);
 }
 
 t_extension::~t_extension()

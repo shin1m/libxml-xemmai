@@ -25,13 +25,13 @@ class t_utf8_converter
 	std::wstring_convert<std::codecvt_utf8<wchar_t>> v_convert;
 
 public:
-	std::string f_convert(const std::wstring& a_string)
+	std::string f_convert(std::wstring_view a_x)
 	{
-		return v_convert.to_bytes(a_string);
+		return v_convert.to_bytes(a_x.data(), a_x.data() + a_x.size());
 	}
-	std::wstring f_convert(const std::string& a_string)
+	std::wstring f_convert(std::string_view a_x)
 	{
-		return v_convert.from_bytes(a_string);
+		return v_convert.from_bytes(a_x.data(), a_x.data() + a_x.size());
 	}
 };
 
@@ -67,7 +67,7 @@ class t_session : public t_entry
 public:
 	static t_session* f_instance()
 	{
-		if (!v_instance) f_throw(L"must be inside main.");
+		if (!v_instance) f_throw(L"must be inside main."sv);
 		return v_instance;
 	}
 
@@ -97,7 +97,7 @@ protected:
 
 	size_t v_n = 0;
 
-	t_proxy(t_type* a_class) : v_session(t_session::f_instance()), v_object(t_object::f_allocate(a_class))
+	t_proxy(t_type* a_class) : v_session(t_session::f_instance()), v_object(t_object::f_allocate(a_class, false))
 	{
 		v_object.f_pointer__(this);
 	}
