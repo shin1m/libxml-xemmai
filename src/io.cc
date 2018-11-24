@@ -1,6 +1,5 @@
 #include "io.h"
 
-#include <xemmai/derived.h>
 #include <xemmai/engine.h>
 
 namespace xemmaix::libxml

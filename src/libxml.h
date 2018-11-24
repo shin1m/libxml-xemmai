@@ -35,6 +35,7 @@ public:
 	}
 };
 
+/*
 class t_entry
 {
 protected:
@@ -114,6 +115,7 @@ public:
 		return v_object;
 	}
 };
+*/
 
 class t_extension : public xemmai::t_extension
 {

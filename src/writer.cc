@@ -1,7 +1,5 @@
 #include "writer.h"
 
-#include <xemmai/derived.h>
-
 namespace xemmai
 {
 
