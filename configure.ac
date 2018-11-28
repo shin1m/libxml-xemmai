@@ -6,8 +6,10 @@ PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= 2.7])
 PKG_CHECK_MODULES([LIBCURL], [libcurl >= 7.50])
 XEMMAI_USE=xemmai-201811
 PKG_CHECK_MODULES([XEMMAI], [${XEMMAI_USE}], [
+	XEMMAI_BIN_PATH=`pkg-config --variable=bin_path ${XEMMAI_USE}`
 	XEMMAI_MODULE_PATH=`pkg-config --variable=module_path ${XEMMAI_USE}`
 ])
+AC_SUBST(XEMMAI_BIN_PATH)
 AC_SUBST(XEMMAI_MODULE_PATH)
 
 if test "${CXXFLAGS+set}" != set; then
@@ -48,5 +50,6 @@ AC_CONFIG_HEADERS([src/configure.h])
 AC_CONFIG_FILES([
 	Makefile
 	src/Makefile
+	test/Makefile
 ])
 AC_OUTPUT

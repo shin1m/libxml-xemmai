@@ -43,6 +43,7 @@ public:
 	t_text_writer(xmlDocPtr a_document, xmlNodePtr a_node, bool a_compression) : v_writer(xmlNewTextWriterTree(a_document, a_node, a_compression ? 1 : 0))
 	{
 	}
+	t_text_writer(const t_value& a_write, const t_value& a_close);
 	~t_text_writer()
 	{
 		f_free();

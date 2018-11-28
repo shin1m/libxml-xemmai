@@ -1,7 +1,5 @@
 #include "reader.h"
 
-#include <algorithm>
-
 namespace xemmaix::libxml
 {
 

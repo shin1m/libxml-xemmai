@@ -1,5 +1,47 @@
 #include "writer.h"
 
+namespace xemmaix::libxml
+{
+
+namespace
+{
+
+struct t_context
+{
+	static int f_write(void* a_context, const char* a_p, int a_n)
+	{
+		auto p = static_cast<t_context*>(a_context);
+		auto& bytes = f_as<t_bytes&>(p->v_bytes);
+		if (a_n > bytes.f_size()) a_n = bytes.f_size();
+		std::copy_n(a_p, a_n, &bytes[0]);
+		try {
+			p->v_write(p->v_bytes, f_global()->f_as(0), f_global()->f_as(a_n));
+			return a_n;
+		} catch (...) {
+			return -1;
+		}
+	}
+	static int f_close(void* a_context)
+	{
+		auto p = static_cast<t_context*>(a_context);
+		p->v_close();
+		delete p;
+		return 0;
+	}
+
+	t_scoped v_write;
+	t_scoped v_close;
+	t_scoped v_bytes = t_bytes::f_instantiate(1024);
+};
+
+}
+
+t_text_writer::t_text_writer(const t_value& a_write, const t_value& a_close) : v_writer(xmlNewTextWriter(xmlOutputBufferCreateIO(t_context::f_write, t_context::f_close, new t_context{a_write, a_close}, NULL)))
+{
+}
+
+}
+
 namespace xemmai
 {
 
@@ -7,7 +49,10 @@ void t_type_of<xemmaix::libxml::t_text_writer>::f_define(t_extension* a_extensio
 {
 	using namespace xemmaix::libxml;
 	t_define<t_text_writer, t_object>(a_extension, L"TextWriter"sv)
-		(t_construct<false, std::wstring_view, bool>())
+		(
+			t_construct<false, std::wstring_view, bool>(),
+			t_construct<false, const t_value&, const t_value&>()
+		)
 		(L"free"sv, t_member<void(t_text_writer::*)(), &t_text_writer::f_free, t_with_lock_for_write>())
 		(L"start_document"sv, t_member<int(t_text_writer::*)(const t_string*, const t_string*, const t_string*), &t_text_writer::f_start_document, t_with_lock_for_write>())
 		(L"end_document"sv, t_member<int(t_text_writer::*)(), &t_text_writer::f_end_document, t_with_lock_for_write>())
@@ -59,7 +104,10 @@ void t_type_of<xemmaix::libxml::t_text_writer>::f_define(t_extension* a_extensio
 
 t_scoped t_type_of<xemmaix::libxml::t_text_writer>::f_do_construct(t_stacked* a_stack, size_t a_n)
 {
-	return t_construct<false, std::wstring_view, bool>::t_bind<xemmaix::libxml::t_text_writer>::f_do(this, a_stack, a_n);
+	return t_overload<
+		t_construct<false, std::wstring_view, bool>,
+		t_construct<false, const t_value&, const t_value&>
+	>::t_bind<xemmaix::libxml::t_text_writer>::f_do(this, a_stack, a_n);
 }
 
 }
