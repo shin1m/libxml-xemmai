@@ -31,6 +31,8 @@ public:
 		curl_easy_setopt(v_curl, CURLOPT_WRITEDATA, this);
 		curl_easy_setopt(v_curl, CURLOPT_URL, a_url);
 		curl_easy_setopt(v_curl, CURLOPT_FOLLOWLOCATION, 1L);
+		curl_easy_setopt(v_curl, CURLOPT_LOW_SPEED_TIME, 60L);
+		curl_easy_setopt(v_curl, CURLOPT_LOW_SPEED_LIMIT, 30L);
 		curl_multi_add_handle(v_curlm, v_curl);
 		if (curl_multi_perform(v_curlm, &v_running) != CURLM_OK) throw std::runtime_error("curl_multi_perform");
 	}
