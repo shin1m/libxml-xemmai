@@ -29,14 +29,14 @@ struct t_context
 		return 0;
 	}
 
-	t_scoped v_write;
-	t_scoped v_close;
-	t_scoped v_bytes = t_bytes::f_instantiate(1024);
+	t_rvalue v_write;
+	t_rvalue v_close;
+	t_root v_bytes = t_bytes::f_instantiate(1024);
 };
 
 }
 
-t_text_writer::t_text_writer(const t_value& a_write, const t_value& a_close) : v_writer(xmlNewTextWriter(xmlOutputBufferCreateIO(t_context::f_write, t_context::f_close, new t_context{a_write, a_close}, NULL)))
+t_text_writer::t_text_writer(const t_pvalue& a_write, const t_pvalue& a_close) : v_writer(xmlNewTextWriter(xmlOutputBufferCreateIO(t_context::f_write, t_context::f_close, new t_context{a_write, a_close}, NULL)))
 {
 }
 
@@ -51,7 +51,7 @@ void t_type_of<xemmaix::libxml::t_text_writer>::f_define(t_extension* a_extensio
 	t_define<t_text_writer, t_object>(a_extension, L"TextWriter"sv)
 		(
 			t_construct<false, std::wstring_view, bool>(),
-			t_construct<false, const t_value&, const t_value&>()
+			t_construct<false, const t_pvalue&, const t_pvalue&>()
 		)
 		(L"free"sv, t_member<void(t_text_writer::*)(), &t_text_writer::f_free, t_with_lock_for_write>())
 		(L"start_document"sv, t_member<int(t_text_writer::*)(const t_string*, const t_string*, const t_string*), &t_text_writer::f_start_document, t_with_lock_for_write>())
@@ -102,11 +102,11 @@ void t_type_of<xemmaix::libxml::t_text_writer>::f_define(t_extension* a_extensio
 	;
 }
 
-t_scoped t_type_of<xemmaix::libxml::t_text_writer>::f_do_construct(t_stacked* a_stack, size_t a_n)
+t_pvalue t_type_of<xemmaix::libxml::t_text_writer>::f_do_construct(t_pvalue* a_stack, size_t a_n)
 {
 	return t_overload<
 		t_construct<false, std::wstring_view, bool>,
-		t_construct<false, const t_value&, const t_value&>
+		t_construct<false, const t_pvalue&, const t_pvalue&>
 	>::t_bind<xemmaix::libxml::t_text_writer>::f_do(this, a_stack, a_n);
 }
 

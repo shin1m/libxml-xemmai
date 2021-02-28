@@ -43,7 +43,7 @@ public:
 	t_text_writer(xmlDocPtr a_document, xmlNodePtr a_node, bool a_compression) : v_writer(xmlNewTextWriterTree(a_document, a_node, a_compression ? 1 : 0))
 	{
 	}
-	t_text_writer(const t_value& a_write, const t_value& a_close);
+	t_text_writer(const t_pvalue& a_write, const t_pvalue& a_close);
 	~t_text_writer()
 	{
 		f_free();
@@ -408,7 +408,7 @@ struct t_type_of<xemmaix::libxml::t_text_writer> : t_derivable<t_holds<xemmaix::
 	static void f_define(t_extension* a_extension);
 
 	using t_base::t_base;
-	t_scoped f_do_construct(t_stacked* a_stack, size_t a_n);
+	t_pvalue f_do_construct(t_pvalue* a_stack, size_t a_n);
 };
 
 }

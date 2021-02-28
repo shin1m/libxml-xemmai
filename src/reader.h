@@ -65,7 +65,7 @@ public:
 	t_text_reader(xmlInputReadCallback a_ioread, xmlInputCloseCallback a_ioclose, void* a_ioctx, const char* a_url, const char* a_encoding, int a_options) : v_reader(xmlReaderForIO(a_ioread, a_ioclose, a_ioctx, a_url, a_encoding, a_options))
 	{
 	}
-	t_text_reader(const t_value& a_read, const t_value& a_close, std::wstring_view a_url, std::wstring_view a_encoding, int a_options);
+	t_text_reader(const t_pvalue& a_read, const t_pvalue& a_close, std::wstring_view a_url, std::wstring_view a_encoding, int a_options);
 	~t_text_reader()
 	{
 		f_free();
@@ -396,7 +396,7 @@ struct t_type_of<xemmaix::libxml::t_text_reader> : t_derivable<t_holds<xemmaix::
 	static void f_define(t_extension* a_extension);
 
 	using t_base::t_base;
-	t_scoped f_do_construct(t_stacked* a_stack, size_t a_n);
+	t_pvalue f_do_construct(t_pvalue* a_stack, size_t a_n);
 };
 
 }

@@ -35,7 +35,7 @@ struct t_type_of<xemmaix::libxml::t_http> : t_derivable<t_holds<xemmaix::libxml:
 	static void f_define(t_extension* a_extension);
 
 	using t_base::t_base;
-	t_scoped f_do_construct(t_stacked* a_stack, size_t a_n);
+	t_pvalue f_do_construct(t_pvalue* a_stack, size_t a_n);
 };
 
 }

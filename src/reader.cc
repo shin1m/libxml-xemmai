@@ -27,14 +27,14 @@ struct t_context
 		return 0;
 	}
 
-	t_scoped v_read;
-	t_scoped v_close;
-	t_scoped v_bytes = t_bytes::f_instantiate(1024);
+	t_rvalue v_read;
+	t_rvalue v_close;
+	t_root v_bytes = t_bytes::f_instantiate(1024);
 };
 
 }
 
-t_text_reader::t_text_reader(const t_value& a_read, const t_value& a_close, std::wstring_view a_url, std::wstring_view a_encoding, int a_options) : v_reader(xmlReaderForIO(t_context::f_read, t_context::f_close, new t_context{a_read, a_close}, f_convert(a_url).c_str(), f_convert(a_encoding).c_str(), a_options))
+t_text_reader::t_text_reader(const t_pvalue& a_read, const t_pvalue& a_close, std::wstring_view a_url, std::wstring_view a_encoding, int a_options) : v_reader(xmlReaderForIO(t_context::f_read, t_context::f_close, new t_context{a_read, a_close}, f_convert(a_url).c_str(), f_convert(a_encoding).c_str(), a_options))
 {
 }
 
@@ -106,7 +106,7 @@ void t_type_of<xemmaix::libxml::t_text_reader>::f_define(t_extension* a_extensio
 		(
 			t_construct<false, std::wstring_view>(),
 			t_construct<false, std::wstring_view, std::wstring_view, int>(),
-			t_construct<false, const t_value&, const t_value&, std::wstring_view, std::wstring_view, int>()
+			t_construct<false, const t_pvalue&, const t_pvalue&, std::wstring_view, std::wstring_view, int>()
 		)
 		(L"free"sv, t_member<void(t_text_reader::*)(), &t_text_reader::f_free, t_with_lock_for_write>())
 		(L"read"sv, t_member<bool(t_text_reader::*)(), &t_text_reader::f_read, t_with_lock_for_write>())
@@ -164,12 +164,12 @@ void t_type_of<xemmaix::libxml::t_text_reader>::f_define(t_extension* a_extensio
 	;
 }
 
-t_scoped t_type_of<xemmaix::libxml::t_text_reader>::f_do_construct(t_stacked* a_stack, size_t a_n)
+t_pvalue t_type_of<xemmaix::libxml::t_text_reader>::f_do_construct(t_pvalue* a_stack, size_t a_n)
 {
 	return t_overload<
 		t_construct<false, std::wstring_view>,
 		t_construct<false, std::wstring_view, std::wstring_view, int>,
-		t_construct<false, const t_value&, const t_value&, std::wstring_view, std::wstring_view, int>
+		t_construct<false, const t_pvalue&, const t_pvalue&, std::wstring_view, std::wstring_view, int>
 	>::t_bind<xemmaix::libxml::t_text_reader>::f_do(this, a_stack, a_n);
 }
 

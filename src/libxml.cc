@@ -39,7 +39,7 @@ void t_proxy::f_destroy()
 namespace
 {
 
-void f_main(t_extension* a_extension, const t_value& a_callable)
+void f_main(t_extension* a_extension, const t_pvalue& a_callable)
 {
 	t_session session(a_extension);
 	a_callable();
@@ -58,7 +58,7 @@ t_extension::t_extension(t_object* a_module) : xemmai::t_extension(a_module)
 	t_type_of<t_text_reader>::f_define(this);
 	t_type_of<t_text_writer>::f_define(this);
 	t_type_of<t_http>::f_define(this);
-//	f_define<void(*)(t_extension*, const t_value&), f_main>(this, L"main"sv);
+//	f_define<void(*)(t_extension*, const t_pvalue&), f_main>(this, L"main"sv);
 }
 
 t_extension::~t_extension()
