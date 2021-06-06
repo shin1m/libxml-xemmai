@@ -39,4 +39,4 @@ test = @(Reader)
 		'(libxml.ReaderTypes.END_ELEMENT, "foo", ""
 
 test(libxml.TextReader
-test(Class(libxml.TextReader
+test(libxml.TextReader + @

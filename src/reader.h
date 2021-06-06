@@ -6,7 +6,7 @@
 namespace xemmaix::libxml
 {
 
-class t_text_reader : t_utf8_converter
+class t_text_reader : t_owned, t_utf8_converter
 {
 	xmlTextReaderPtr v_reader;
 
@@ -68,10 +68,11 @@ public:
 	t_text_reader(const t_pvalue& a_read, const t_pvalue& a_close, std::wstring_view a_url, std::wstring_view a_encoding, int a_options);
 	~t_text_reader()
 	{
-		f_free();
+		xmlFreeTextReader(v_reader);
 	}
 	void f_free()
 	{
+		f_owned_or_throw();
 		xmlFreeTextReader(v_reader);
 		v_reader = NULL;
 	}
@@ -81,88 +82,109 @@ public:
 	}
 	bool f_read()
 	{
+		f_owned_or_throw();
 		return f_boolean(xmlTextReaderRead(v_reader));
 	}
 #ifdef LIBXML_WRITER_ENABLED
 	std::wstring f_read_inner_xml()
 	{
+		f_owned_or_throw();
 		return f_string(xmlTextReaderReadInnerXml(v_reader));
 	}
 	std::wstring f_read_outer_xml()
 	{
+		f_owned_or_throw();
 		return f_string(xmlTextReaderReadOuterXml(v_reader));
 	}
 #endif
 	std::wstring f_read_string()
 	{
+		f_owned_or_throw();
 		return f_string(xmlTextReaderReadString(v_reader));
 	}
 	bool f_read_attribute_value()
 	{
+		f_owned_or_throw();
 		return f_boolean(xmlTextReaderReadAttributeValue(v_reader));
 	}
 	int f_attribute_count()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextReaderAttributeCount(v_reader));
 	}
 	int f_depth()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextReaderDepth(v_reader));
 	}
 	bool f_has_attributes()
 	{
+		f_owned_or_throw();
 		return f_boolean(xmlTextReaderHasAttributes(v_reader));
 	}
 	bool f_has_value()
 	{
+		f_owned_or_throw();
 		return f_boolean(xmlTextReaderHasValue(v_reader));
 	}
 	bool f_is_default()
 	{
+		f_owned_or_throw();
 		return f_boolean(xmlTextReaderIsDefault(v_reader));
 	}
 	bool f_is_empty_element()
 	{
+		f_owned_or_throw();
 		return f_boolean(xmlTextReaderIsEmptyElement(v_reader));
 	}
 	int f_node_type()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextReaderNodeType(v_reader));
 	}
 	int f_quote_character()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextReaderQuoteChar(v_reader));
 	}
 	int f_read_state()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextReaderReadState(v_reader));
 	}
 	bool f_is_namespace_decl()
 	{
+		f_owned_or_throw();
 		return f_boolean(xmlTextReaderIsNamespaceDecl(v_reader));
 	}
 	std::wstring f_base_uri()
 	{
+		f_owned_or_throw();
 		return f_string(xmlTextReaderConstBaseUri(v_reader));
 	}
 	std::wstring f_local_name()
 	{
+		f_owned_or_throw();
 		return f_string(xmlTextReaderConstLocalName(v_reader));
 	}
 	std::wstring f_name()
 	{
+		f_owned_or_throw();
 		return f_string(xmlTextReaderConstName(v_reader));
 	}
 	std::wstring f_namespace_uri()
 	{
+		f_owned_or_throw();
 		return f_string(xmlTextReaderConstNamespaceUri(v_reader));
 	}
 	std::wstring f_prefix()
 	{
+		f_owned_or_throw();
 		return f_string(xmlTextReaderConstPrefix(v_reader));
 	}
 	std::wstring f_xml_lang()
 	{
+		f_owned_or_throw();
 		return f_string(xmlTextReaderConstXmlLang(v_reader));
 	}
 	const xmlChar* f_const_string(const xmlChar* a_string)
@@ -171,22 +193,27 @@ public:
 	}
 	std::wstring f_value()
 	{
+		f_owned_or_throw();
 		return f_string(xmlTextReaderConstValue(v_reader));
 	}
 	void f_close()
 	{
+		f_owned_or_throw();
 		f_void(xmlTextReaderClose(v_reader));
 	}
 	std::wstring f_get_attribute_no(int a_no)
 	{
+		f_owned_or_throw();
 		return f_string(xmlTextReaderGetAttributeNo(v_reader, a_no));
 	}
 	std::wstring f_get_attribute(std::wstring_view a_name)
 	{
+		f_owned_or_throw();
 		return f_string(xmlTextReaderGetAttribute(v_reader, f_cast(f_convert(a_name))));
 	}
 	std::wstring f_get_attribute_ns(std::wstring_view a_name, std::wstring_view a_uri)
 	{
+		f_owned_or_throw();
 		return f_string(xmlTextReaderGetAttributeNs(v_reader, f_cast(f_convert(a_name)), f_cast(f_convert(a_uri))));
 	}
 	xmlParserInputBufferPtr get_remainder()
@@ -195,46 +222,57 @@ public:
 	}
 	std::wstring f_lookup_namespace(std::wstring_view a_prefix)
 	{
+		f_owned_or_throw();
 		return f_string(xmlTextReaderLookupNamespace(v_reader, f_cast(f_convert(a_prefix))));
 	}
 	bool f_move_to_attribute_no(int a_no)
 	{
+		f_owned_or_throw();
 		return f_boolean(xmlTextReaderMoveToAttributeNo(v_reader, a_no));
 	}
 	bool f_move_to_attribute(std::wstring_view a_name)
 	{
+		f_owned_or_throw();
 		return f_boolean(xmlTextReaderMoveToAttribute(v_reader, f_cast(f_convert(a_name))));
 	}
 	bool f_move_to_attribute_ns(std::wstring_view a_name, std::wstring_view a_uri)
 	{
+		f_owned_or_throw();
 		return f_boolean(xmlTextReaderMoveToAttributeNs(v_reader, f_cast(f_convert(a_name)), f_cast(f_convert(a_uri))));
 	}
 	bool f_move_to_first_attribute()
 	{
+		f_owned_or_throw();
 		return f_boolean(xmlTextReaderMoveToFirstAttribute(v_reader));
 	}
 	bool f_move_to_next_attribute()
 	{
+		f_owned_or_throw();
 		return f_boolean(xmlTextReaderMoveToNextAttribute(v_reader));
 	}
 	bool f_move_to_element()
 	{
+		f_owned_or_throw();
 		return f_boolean(xmlTextReaderMoveToElement(v_reader));
 	}
 	bool f_normalization()
 	{
+		f_owned_or_throw();
 		return f_boolean(xmlTextReaderNormalization(v_reader));
 	}
 	std::wstring f_encoding()
 	{
+		f_owned_or_throw();
 		return f_string(xmlTextReaderConstEncoding(v_reader));
 	}
 	void f_set_parser_property(int a_property, int a_value)
 	{
+		f_owned_or_throw();
 		f_void(xmlTextReaderSetParserProp(v_reader, a_property, a_value));
 	}
 	int f_get_parser_property(int a_property)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextReaderGetParserProp(v_reader, a_property));
 	}
 	xmlNodePtr f_current_node()
@@ -243,10 +281,12 @@ public:
 	}
 	int f_get_parser_line_number()
 	{
+		f_owned_or_throw();
 		return xmlTextReaderGetParserLineNumber(v_reader);
 	}
 	int f_get_parser_column_number()
 	{
+		f_owned_or_throw();
 		return xmlTextReaderGetParserColumnNumber(v_reader);
 	}
 	xmlNodePtr f_preserve()
@@ -269,19 +309,23 @@ public:
 	}
 	bool f_next()
 	{
+		f_owned_or_throw();
 		return f_boolean(xmlTextReaderNext(v_reader));
 	}
 	bool f_next_sibling()
 	{
+		f_owned_or_throw();
 		return f_boolean(xmlTextReaderNextSibling(v_reader));
 	}
 	bool f_is_valid()
 	{
+		f_owned_or_throw();
 		return f_boolean(xmlTextReaderIsValid(v_reader));
 	}
 #ifdef LIBXML_SCHEMAS_ENABLED
 	void f_relax_ng_validate(std::wstring_view a_rng)
 	{
+		f_owned_or_throw();
 		f_void(xmlTextReaderRelaxNGValidate(v_reader, f_convert(a_rng).c_str()));
 	}
 	void f_relax_ng_set_schema(xmlRelaxNGPtr a_schema)
@@ -290,6 +334,7 @@ public:
 	}
 	void f_schema_validate(std::wstring_view a_xsd)
 	{
+		f_owned_or_throw();
 		f_void(xmlTextReaderSchemaValidate(v_reader, f_convert(a_xsd).c_str()));
 	}
 	void f_schema_validate_context(xmlSchemaValidCtxtPtr a_context, int a_options)
@@ -303,14 +348,17 @@ public:
 #endif
 	std::wstring f_xml_version()
 	{
+		f_owned_or_throw();
 		return f_string(xmlTextReaderConstXmlVersion(v_reader));
 	}
 	bool f_standalone()
 	{
+		f_owned_or_throw();
 		return f_boolean(xmlTextReaderStandalone(v_reader));
 	}
 	int f_byte_consumed()
 	{
+		f_owned_or_throw();
 		return xmlTextReaderByteConsumed(v_reader);
 	}
 	void f_new_walker(xmlDocPtr a_document)
@@ -323,6 +371,7 @@ public:
 	}
 	void f_new_file(std::wstring_view a_filename, std::wstring_view a_encoding, int a_options)
 	{
+		f_owned_or_throw();
 		f_void(xmlReaderNewFile(v_reader, f_convert(a_filename).c_str(), f_convert(a_encoding).c_str(), a_options));
 	}
 	void f_new_memory(const char* a_buffer, int a_size, const char* a_url, const char* a_encoding, int a_options)
@@ -357,33 +406,33 @@ namespace xemmai
 {
 
 template<>
-struct t_type_of<xmlParserSeverities> : t_enum_of<xmlParserSeverities, xemmaix::libxml::t_extension>
+struct t_type_of<xmlParserSeverities> : t_enum_of<xmlParserSeverities, xemmaix::libxml::t_library>
 {
-	static void f_define(t_extension* a_extension);
+	static t_object* f_define(t_library* a_library);
 
 	using t_base::t_base;
 };
 
 template<>
-struct t_type_of<xmlTextReaderMode> : t_enum_of<xmlTextReaderMode, xemmaix::libxml::t_extension>
+struct t_type_of<xmlTextReaderMode> : t_enum_of<xmlTextReaderMode, xemmaix::libxml::t_library>
 {
-	static void f_define(t_extension* a_extension);
+	static t_object* f_define(t_library* a_library);
 
 	using t_base::t_base;
 };
 
 template<>
-struct t_type_of<xmlParserProperties> : t_enum_of<xmlParserProperties, xemmaix::libxml::t_extension>
+struct t_type_of<xmlParserProperties> : t_enum_of<xmlParserProperties, xemmaix::libxml::t_library>
 {
-	static void f_define(t_extension* a_extension);
+	static t_object* f_define(t_library* a_library);
 
 	using t_base::t_base;
 };
 
 template<>
-struct t_type_of<xmlReaderTypes> : t_enum_of<xmlReaderTypes, xemmaix::libxml::t_extension>
+struct t_type_of<xmlReaderTypes> : t_enum_of<xmlReaderTypes, xemmaix::libxml::t_library>
 {
-	static void f_define(t_extension* a_extension);
+	static t_object* f_define(t_library* a_library);
 
 	using t_base::t_base;
 };
@@ -391,9 +440,9 @@ struct t_type_of<xmlReaderTypes> : t_enum_of<xmlReaderTypes, xemmaix::libxml::t_
 template<>
 struct t_type_of<xemmaix::libxml::t_text_reader> : t_derivable<t_holds<xemmaix::libxml::t_text_reader>>
 {
-	typedef xemmaix::libxml::t_extension t_extension;
+	typedef xemmaix::libxml::t_library t_library;
 
-	static void f_define(t_extension* a_extension);
+	static void f_define(t_library* a_library);
 
 	using t_base::t_base;
 	t_pvalue f_do_construct(t_pvalue* a_stack, size_t a_n);

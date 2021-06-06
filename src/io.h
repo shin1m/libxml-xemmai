@@ -7,7 +7,7 @@
 namespace xemmaix::libxml
 {
 
-class t_http : t_utf8_converter, t_curl
+class t_http : t_owned, t_utf8_converter, t_curl
 {
 	friend struct xemmai::t_type_of<t_http>;
 
@@ -17,6 +17,7 @@ public:
 	}
 	void f_close()
 	{
+		f_owned_or_throw();
 		t_curl::f_close();
 	}
 	size_t f_read(t_bytes& a_bytes, size_t a_offset, size_t a_size);
@@ -30,9 +31,9 @@ namespace xemmai
 template<>
 struct t_type_of<xemmaix::libxml::t_http> : t_derivable<t_holds<xemmaix::libxml::t_http>>
 {
-	typedef xemmaix::libxml::t_extension t_extension;
+	typedef xemmaix::libxml::t_library t_library;
 
-	static void f_define(t_extension* a_extension);
+	static void f_define(t_library* a_library);
 
 	using t_base::t_base;
 	t_pvalue f_do_construct(t_pvalue* a_stack, size_t a_n);

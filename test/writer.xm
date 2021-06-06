@@ -24,4 +24,4 @@ test = @(Writer)
 	assert(target == "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<foo>bar</foo>\n"
 
 test(libxml.TextWriter
-test(Class(libxml.TextWriter
+test(libxml.TextWriter + @

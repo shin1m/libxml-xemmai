@@ -5,8 +5,6 @@
 #include <iterator>
 #include <locale>
 #include <xemmai/convert.h>
-#include <xemmai/array.h>
-#include <xemmai/bytes.h>
 #include <libxml/xmlreader.h>
 #include <libxml/xmlwriter.h>
 
@@ -15,7 +13,7 @@ namespace xemmaix::libxml
 
 using namespace xemmai;
 
-class t_extension;
+class t_library;
 class t_text_reader;
 class t_text_writer;
 class t_http;
@@ -63,7 +61,7 @@ class t_session : public t_entry
 
 	static XEMMAI__PORTABLE__THREAD t_session* v_instance;
 
-	t_extension* v_extension;
+	t_library* v_library;
 
 public:
 	static t_session* f_instance()
@@ -72,11 +70,11 @@ public:
 		return v_instance;
 	}
 
-	t_session(t_extension* a_extension);
+	t_session(t_library* a_library);
 	~t_session();
-	t_extension* f_extension() const
+	t_library* f_library() const
 	{
-		return v_extension;
+		return v_library;
 	}
 };
 
@@ -117,7 +115,7 @@ public:
 };
 */
 
-class t_extension : public xemmai::t_extension
+class t_library : public xemmai::t_library
 {
 	t_slot_of<t_type> v_type_parser_severities;
 	t_slot_of<t_type> v_type_text_reader_mode;
@@ -128,11 +126,12 @@ class t_extension : public xemmai::t_extension
 	t_slot_of<t_type> v_type_http;
 
 public:
-	t_extension(t_object* a_module);
-	virtual ~t_extension();
+	using xemmai::t_library::t_library;
+	virtual ~t_library();
 	virtual void f_scan(t_scan a_scan);
+	virtual std::vector<std::pair<t_root, t_rvalue>> f_define();
 	template<typename T>
-	const T* f_extension() const
+	const T* f_library() const
 	{
 		return f_global();
 	}
@@ -144,63 +143,29 @@ public:
 	template<typename T>
 	t_type* f_type() const
 	{
-		return const_cast<t_extension*>(this)->f_type_slot<T>();
+		return const_cast<t_library*>(this)->f_type_slot<T>();
 	}
 	template<typename T>
 	t_pvalue f_as(T&& a_value) const
 	{
 		typedef t_type_of<typename t_fundamental<T>::t_type> t;
-		return t::f_transfer(f_extension<typename t::t_extension>(), std::forward<T>(a_value));
+		return t::f_transfer(f_library<typename t::t_library>(), std::forward<T>(a_value));
 	}
 };
 
 template<>
-inline const t_extension* t_extension::f_extension<t_extension>() const
+inline const t_library* t_library::f_library<t_library>() const
 {
 	return this;
 }
 
-template<>
-inline t_slot_of<t_type>& t_extension::f_type_slot<xmlParserSeverities>()
-{
-	return v_type_parser_severities;
-}
-
-template<>
-inline t_slot_of<t_type>& t_extension::f_type_slot<xmlTextReaderMode>()
-{
-	return v_type_text_reader_mode;
-}
-
-template<>
-inline t_slot_of<t_type>& t_extension::f_type_slot<xmlParserProperties>()
-{
-	return v_type_parser_properties;
-}
-
-template<>
-inline t_slot_of<t_type>& t_extension::f_type_slot<xmlReaderTypes>()
-{
-	return v_type_reader_types;
-}
-
-template<>
-inline t_slot_of<t_type>& t_extension::f_type_slot<t_text_reader>()
-{
-	return v_type_text_reader;
-}
-
-template<>
-inline t_slot_of<t_type>& t_extension::f_type_slot<t_text_writer>()
-{
-	return v_type_text_writer;
-}
-
-template<>
-inline t_slot_of<t_type>& t_extension::f_type_slot<t_http>()
-{
-	return v_type_http;
-}
+XEMMAI__LIBRARY__TYPE_AS(t_library, xmlParserSeverities, parser_severities)
+XEMMAI__LIBRARY__TYPE_AS(t_library, xmlTextReaderMode, text_reader_mode)
+XEMMAI__LIBRARY__TYPE_AS(t_library, xmlParserProperties, parser_properties)
+XEMMAI__LIBRARY__TYPE_AS(t_library, xmlReaderTypes, reader_types)
+XEMMAI__LIBRARY__TYPE(t_library, text_reader)
+XEMMAI__LIBRARY__TYPE(t_library, text_writer)
+XEMMAI__LIBRARY__TYPE(t_library, http)
 
 }
 

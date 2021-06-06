@@ -6,7 +6,7 @@
 namespace xemmaix::libxml
 {
 
-class t_text_writer : t_utf8_converter
+class t_text_writer : t_owned, t_utf8_converter
 {
 	xmlTextWriterPtr v_writer;
 
@@ -46,27 +46,32 @@ public:
 	t_text_writer(const t_pvalue& a_write, const t_pvalue& a_close);
 	~t_text_writer()
 	{
-		f_free();
+		xmlFreeTextWriter(v_writer);
 	}
 	void f_free()
 	{
+		f_owned_or_throw();
 		xmlFreeTextWriter(v_writer);
 		v_writer = NULL;
 	}
 	int f_start_document(const t_string* a_version, const t_string* a_encoding, const t_string* a_standalone)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterStartDocument(v_writer, a_version ? f_convert(*a_version).c_str() : NULL, a_encoding ? f_convert(*a_encoding).c_str() : NULL, a_standalone ? f_convert(*a_standalone).c_str() : NULL));
 	}
 	int f_end_document()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterEndDocument(v_writer));
 	}
 	int f_start_comment()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterStartComment(v_writer));
 	}
 	int f_end_comment()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterEndComment(v_writer));
 	}
 	int f_write_format_comment(const char* a_format, ...)
@@ -83,22 +88,27 @@ public:
 	}
 	int f_write_comment(std::wstring_view a_content)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterWriteComment(v_writer, f_cast(f_convert(a_content))));
 	}
 	int f_start_element(std::wstring_view a_name)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterStartElement(v_writer, f_cast(f_convert(a_name))));
 	}
 	int f_start_element_ns(std::wstring_view a_prefix, std::wstring_view a_name, std::wstring_view a_uri)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterStartElementNS(v_writer, f_cast(f_convert(a_prefix)), f_cast(f_convert(a_name)), f_cast(f_convert(a_uri))));
 	}
 	int f_end_element()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterEndElement(v_writer));
 	}
 	int f_full_end_element()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterFullEndElement(v_writer));
 	}
 	int f_write_format_element(const xmlChar* a_name, const char* a_format, ...)
@@ -115,6 +125,7 @@ public:
 	}
 	int f_write_element(std::wstring_view a_name, std::wstring_view a_content)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterWriteElement(v_writer, f_cast(f_convert(a_name)), f_cast(f_convert(a_content))));
 	}
 	int f_write_format_element_ns(const xmlChar* a_prefix, const xmlChar* a_name, const xmlChar* a_uri, const char* a_format, ...)
@@ -131,6 +142,7 @@ public:
 	}
 	int f_write_element_ns(std::wstring_view a_prefix, std::wstring_view a_name, std::wstring_view a_uri, std::wstring_view a_content)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterWriteElementNS(v_writer, f_cast(f_convert(a_prefix)), f_cast(f_convert(a_name)), f_cast(f_convert(a_uri)), f_cast(f_convert(a_content))));
 	}
 	int f_write_format_raw(const char* a_format, ...)
@@ -151,6 +163,7 @@ public:
 	}
 	int f_write_raw(std::wstring_view a_content)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterWriteRaw(v_writer, f_cast(f_convert(a_content))));
 	}
 	int f_write_format_string(const char* a_format, ...)
@@ -167,26 +180,32 @@ public:
 	}
 	int f_write_string(std::wstring_view a_content)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterWriteString(v_writer, f_cast(f_convert(a_content))));
 	}
 	int f_write_base64(const char* a_data, int a_start, int a_length)
 	{
+		f_owned_or_throw();
 		return xmlTextWriterWriteBase64(v_writer, a_data, a_start, a_length);
 	}
 	int f_write_bin_hex(const char* a_data, int a_start, int a_length)
 	{
+		f_owned_or_throw();
 		return xmlTextWriterWriteBinHex(v_writer, a_data, a_start, a_length);
 	}
 	int f_start_attribute(std::wstring_view a_name)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterStartAttribute(v_writer, f_cast(f_convert(a_name))));
 	}
 	int f_start_attribute_ns(std::wstring_view a_prefix, std::wstring_view a_name, std::wstring_view a_uri)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterStartAttributeNS(v_writer, f_cast(f_convert(a_prefix)), f_cast(f_convert(a_name)), f_cast(f_convert(a_uri))));
 	}
 	int f_end_attribute()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterEndAttribute(v_writer));
 	}
 	int f_write_format_attribute(const xmlChar* a_name, const char* a_format, ...)
@@ -203,6 +222,7 @@ public:
 	}
 	int f_write_attribute(std::wstring_view a_name, std::wstring_view a_content)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterWriteAttribute(v_writer, f_cast(f_convert(a_name)), f_cast(f_convert(a_content))));
 	}
 	int f_write_format_attribute_ns(const xmlChar* a_prefix, const xmlChar* a_name, const xmlChar* a_uri, const char* a_format, ...)
@@ -219,14 +239,17 @@ public:
 	}
 	int f_write_attribute_ns(std::wstring_view a_prefix, std::wstring_view a_name, std::wstring_view a_uri, std::wstring_view a_content)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterWriteAttributeNS(v_writer, f_cast(f_convert(a_prefix)), f_cast(f_convert(a_name)), f_cast(f_convert(a_uri)), f_cast(f_convert(a_content))));
 	}
 	int f_start_pi(std::wstring_view a_target)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterStartPI(v_writer, f_cast(f_convert(a_target))));
 	}
 	int f_end_pi()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterEndPI(v_writer));
 	}
 	int f_write_format_pi(const xmlChar* a_target, const char* a_format, ...)
@@ -243,14 +266,17 @@ public:
 	}
 	int f_write_pi(std::wstring_view a_target, std::wstring_view a_content)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterWritePI(v_writer, f_cast(f_convert(a_target)), f_cast(f_convert(a_content))));
 	}
 	int f_start_cdata()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterStartCDATA(v_writer));
 	}
 	int f_end_cdata()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterEndCDATA(v_writer));
 	}
 	int f_write_format_cdata(const char* a_format, ...)
@@ -267,14 +293,17 @@ public:
 	}
 	int f_write_cdata(std::wstring_view a_content)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterWriteCDATA(v_writer, f_cast(f_convert(a_content))));
 	}
 	int f_start_dtd(std::wstring_view a_name, std::wstring_view a_public, std::wstring_view a_system)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterStartDTD(v_writer, f_cast(f_convert(a_name)), f_cast(f_convert(a_public)), f_cast(f_convert(a_system))));
 	}
 	int f_end_dtd()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterEndDTD(v_writer));
 	}
 	int f_write_format_dtd(const xmlChar* a_name, const xmlChar* a_public, const xmlChar* a_system, const char* a_format, ...)
@@ -291,14 +320,17 @@ public:
 	}
 	int f_write_dtd(std::wstring_view a_name, std::wstring_view a_public, std::wstring_view a_system, std::wstring_view a_subset)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterWriteDTD(v_writer, f_cast(f_convert(a_name)), f_cast(f_convert(a_public)), f_cast(f_convert(a_system)), f_cast(f_convert(a_subset))));
 	}
 	int f_start_dtd_element(std::wstring_view a_name)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterStartDTDElement(v_writer, f_cast(f_convert(a_name))));
 	}
 	int f_end_dtd_element()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterEndDTDElement(v_writer));
 	}
 	int f_write_format_dtd_element(const xmlChar* a_name, const char* a_format, ...)
@@ -315,14 +347,17 @@ public:
 	}
 	int f_write_dtd_element(std::wstring_view a_name, std::wstring_view a_content)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterWriteDTDElement(v_writer, f_cast(f_convert(a_name)), f_cast(f_convert(a_content))));
 	}
 	int f_start_dtd_attlist(std::wstring_view a_name)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterStartDTDAttlist(v_writer, f_cast(f_convert(a_name))));
 	}
 	int f_end_dtd_attlist()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterEndDTDAttlist(v_writer));
 	}
 	int f_write_format_dtd_attlist(const xmlChar* a_name, const char* a_format, ...)
@@ -339,14 +374,17 @@ public:
 	}
 	int f_write_dtd_attlist(std::wstring_view a_name, std::wstring_view a_content)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterWriteDTDAttlist(v_writer, f_cast(f_convert(a_name)), f_cast(f_convert(a_content))));
 	}
 	int f_start_dtd_entity(bool a_parameter, std::wstring_view a_name)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterStartDTDEntity(v_writer, a_parameter ? 1 : 0, f_cast(f_convert(a_name))));
 	}
 	int f_end_dtd_entity()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterEndDTDEntity(v_writer));
 	}
 	int f_write_format_dtd_internal_entity(bool a_parameter, const xmlChar* a_name, const char* a_format, ...)
@@ -363,34 +401,42 @@ public:
 	}
 	int f_write_dtd_internal_entity(bool a_parameter, std::wstring_view a_name, std::wstring_view a_content)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterWriteDTDInternalEntity(v_writer, a_parameter ? 1 : 0, f_cast(f_convert(a_name)), f_cast(f_convert(a_content))));
 	}
 	int f_write_dtd_external_entity(bool a_parameter, std::wstring_view a_name, std::wstring_view a_public, std::wstring_view a_system, std::wstring_view a_notation)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterWriteDTDExternalEntity(v_writer, a_parameter ? 1 : 0, f_cast(f_convert(a_name)), f_cast(f_convert(a_public)), f_cast(f_convert(a_system)), f_cast(f_convert(a_notation))));
 	}
 	int f_write_dtd_external_entity(std::wstring_view a_public, std::wstring_view a_system, std::wstring_view a_notation)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterWriteDTDExternalEntityContents(v_writer, f_cast(f_convert(a_public)), f_cast(f_convert(a_system)), f_cast(f_convert(a_notation))));
 	}
 	int f_write_dtd_entity(bool a_parameter, std::wstring_view a_name, std::wstring_view a_public, std::wstring_view a_system, std::wstring_view a_notation, std::wstring_view a_content)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterWriteDTDEntity(v_writer, a_parameter ? 1 : 0, f_cast(f_convert(a_name)), f_cast(f_convert(a_public)), f_cast(f_convert(a_system)), f_cast(f_convert(a_notation)), f_cast(f_convert(a_content))));
 	}
 	int f_write_dtd_notation(std::wstring_view a_name, std::wstring_view a_public, std::wstring_view a_system)
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterWriteDTDNotation(v_writer, f_cast(f_convert(a_name)), f_cast(f_convert(a_public)), f_cast(f_convert(a_system))));
 	}
 	void f_set_indent(bool a_indent)
 	{
+		f_owned_or_throw();
 		f_void(xmlTextWriterSetIndent(v_writer, a_indent ? 1 : 0));
 	}
 	void f_set_indent_string(std::wstring_view a_string)
 	{
+		f_owned_or_throw();
 		f_void(xmlTextWriterSetIndentString(v_writer, f_cast(f_convert(a_string))));
 	}
 	int f_flush()
 	{
+		f_owned_or_throw();
 		return f_integer(xmlTextWriterFlush(v_writer));
 	}
 };
@@ -403,9 +449,9 @@ namespace xemmai
 template<>
 struct t_type_of<xemmaix::libxml::t_text_writer> : t_derivable<t_holds<xemmaix::libxml::t_text_writer>>
 {
-	typedef xemmaix::libxml::t_extension t_extension;
+	typedef xemmaix::libxml::t_library t_library;
 
-	static void f_define(t_extension* a_extension);
+	static void f_define(t_library* a_library);
 
 	using t_base::t_base;
 	t_pvalue f_do_construct(t_pvalue* a_stack, size_t a_n);
