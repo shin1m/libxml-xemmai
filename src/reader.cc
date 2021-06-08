@@ -45,43 +45,50 @@ namespace xemmai
 
 t_object* t_type_of<xmlParserSeverities>::f_define(t_library* a_library)
 {
-	t_define{a_library}.f_derive<xmlParserSeverities, intptr_t>();
-	return a_library->f_type<xmlParserSeverities>()->f_do_derive({{}, t_define(a_library)
+	return t_base::f_define(a_library, [](auto a_fields)
+	{
+		a_fields
 		(L"VALIDITY_WARNING"sv, XML_PARSER_SEVERITY_VALIDITY_WARNING)
 		(L"VALIDITY_ERROR"sv, XML_PARSER_SEVERITY_VALIDITY_ERROR)
 		(L"WARNING"sv, XML_PARSER_SEVERITY_WARNING)
 		(L"ERROR"sv, XML_PARSER_SEVERITY_ERROR)
+		;
 	});
 }
 
 t_object* t_type_of<xmlTextReaderMode>::f_define(t_library* a_library)
 {
-	t_define{a_library}.f_derive<xmlTextReaderMode, intptr_t>();
-	return a_library->f_type<xmlTextReaderMode>()->f_do_derive({{}, t_define(a_library)
+	return t_base::f_define(a_library, [](auto a_fields)
+	{
+		a_fields
 		(L"INITIAL"sv, XML_TEXTREADER_MODE_INITIAL)
 		(L"INTERACTIVE"sv, XML_TEXTREADER_MODE_INTERACTIVE)
 		(L"ERROR"sv, XML_TEXTREADER_MODE_ERROR)
 		(L"EOF"sv, XML_TEXTREADER_MODE_EOF)
 		(L"CLOSED"sv, XML_TEXTREADER_MODE_CLOSED)
 		(L"READING"sv, XML_TEXTREADER_MODE_READING)
+		;
 	});
 }
 
 t_object* t_type_of<xmlParserProperties>::f_define(t_library* a_library)
 {
-	t_define{a_library}.f_derive<xmlParserProperties, intptr_t>();
-	return a_library->f_type<xmlParserProperties>()->f_do_derive({{}, t_define(a_library)
+	return t_base::f_define(a_library, [](auto a_fields)
+	{
+		a_fields
 		(L"LOADDTD"sv, XML_PARSER_LOADDTD)
 		(L"DEFAULTATTRS"sv, XML_PARSER_DEFAULTATTRS)
 		(L"VALIDATE"sv, XML_PARSER_VALIDATE)
 		(L"SUBST_ENTITIES"sv, XML_PARSER_SUBST_ENTITIES)
+		;
 	});
 }
 
 t_object* t_type_of<xmlReaderTypes>::f_define(t_library* a_library)
 {
-	t_define{a_library}.f_derive<xmlReaderTypes, intptr_t>();
-	return a_library->f_type<xmlReaderTypes>()->f_do_derive({{}, t_define(a_library)
+	return t_base::f_define(a_library, [](auto a_fields)
+	{
+		a_fields
 		(L"NONE"sv, XML_READER_TYPE_NONE)
 		(L"ELEMENT"sv, XML_READER_TYPE_ELEMENT)
 		(L"ATTRIBUTE"sv, XML_READER_TYPE_ATTRIBUTE)
@@ -100,6 +107,7 @@ t_object* t_type_of<xmlReaderTypes>::f_define(t_library* a_library)
 		(L"END_ELEMENT"sv, XML_READER_TYPE_END_ELEMENT)
 		(L"END_ENTITY"sv, XML_READER_TYPE_END_ENTITY)
 		(L"XML_DECLARATION"sv, XML_READER_TYPE_XML_DECLARATION)
+		;
 	});
 }
 
