@@ -75,9 +75,9 @@ std::vector<std::pair<t_root, t_rvalue>> t_library::f_define()
 		(L"TextReaderMode"sv, t_type_of<xmlTextReaderMode>::f_define(this))
 		(L"ParserProperties"sv, t_type_of<xmlParserProperties>::f_define(this))
 		(L"ReaderTypes"sv, t_type_of<xmlReaderTypes>::f_define(this))
-		(L"TextReader"sv, t_object::f_of(v_type_text_reader))
-		(L"TextWriter"sv, t_object::f_of(v_type_text_writer))
-		(L"Http"sv, t_object::f_of(v_type_http))
+		(L"TextReader"sv, static_cast<t_object*>(v_type_text_reader))
+		(L"TextWriter"sv, static_cast<t_object*>(v_type_text_writer))
+		(L"Http"sv, static_cast<t_object*>(v_type_http))
 //		(L"main"sv, t_static<void(*)(t_library*, const t_pvalue&), f_main>())
 	;
 }
