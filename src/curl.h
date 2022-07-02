@@ -33,7 +33,8 @@ public:
 		curl_easy_setopt(v_curl, CURLOPT_FOLLOWLOCATION, 1L);
 		curl_easy_setopt(v_curl, CURLOPT_TIMEOUT, 180L);
 		curl_multi_add_handle(v_curlm, v_curl);
-		if (curl_multi_perform(v_curlm, &v_running) != CURLM_OK) throw std::runtime_error("curl_multi_perform");
+		auto code = curl_multi_perform(v_curlm, &v_running);
+		if (code != CURLM_OK) throw std::runtime_error("curl_multi_perform: "s + curl_multi_strerror(code));
 	}
 	~t_curl()
 	{
@@ -57,9 +58,11 @@ public:
 		if (v_curl == NULL) throw std::runtime_error("already closed.");
 		if (v_running > 0 && v_buffer.size() < a_n)
 			while (true) {
-				if (curl_multi_perform(v_curlm, &v_running) != CURLM_OK) throw std::runtime_error("curl_multi_perform");
+				auto code = curl_multi_perform(v_curlm, &v_running);
+				if (code != CURLM_OK) throw std::runtime_error("curl_multi_perform: "s + curl_multi_strerror(code));
 				if (v_running <= 0 || v_buffer.size() >= a_n) break;
-				if (curl_multi_wait(v_curlm, NULL, 0, 60000, NULL) != CURLM_OK) throw std::runtime_error("curl_multi_wait");
+				code = curl_multi_wait(v_curlm, NULL, 0, 60000, NULL);
+				if (code != CURLM_OK) throw std::runtime_error("curl_multi_wait: "s + curl_multi_strerror(code));
 			}
 		if (v_buffer.empty()) return 0;
 		if (v_buffer.size() < a_n) a_n = v_buffer.size();

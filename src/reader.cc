@@ -8,23 +8,51 @@ namespace
 
 struct t_context
 {
+	template<typename T>
+	static int f_try(T a_do, const char* a_at)
+	{
+		try {
+			try {
+				return a_do();
+			} catch (const t_rvalue& thrown) {
+				if (auto p = f_string_or_null(thrown)) {
+					auto& s = p->f_as<t_string>();
+					std::fprintf(stderr, "t_context::%s: caught: %.*ls\n", a_at, static_cast<int>(s.f_size()), static_cast<const wchar_t*>(s));
+				} else {
+					std::fprintf(stderr, "t_context::%s: caught <unprintable>\n", a_at);
+				}
+			}
+		} catch (std::exception& e) {
+			std::fprintf(stderr, "t_context::%s: caught %s\n", a_at, e.what());
+		} catch (...) {
+			std::fprintf(stderr, "t_context::%s: caught <unexpected>\n", a_at);
+		}
+		return -1;
+	}
 	static int f_read(void* a_context, char* a_p, int a_n)
 	{
-		auto p = static_cast<t_context*>(a_context);
-		auto& bytes = f_as<t_bytes&>(p->v_bytes);
-		if (a_n > bytes.f_size()) a_n = bytes.f_size();
-		auto n = p->v_read(p->v_bytes, f_global()->f_as(0), f_global()->f_as(a_n));
-		f_check<int>(n, L"result of read");
-		a_n = f_as<int>(n);
-		std::copy_n(&bytes[0], a_n, a_p);
-		return a_n;
+		return f_try([&]
+		{
+			auto p = static_cast<t_context*>(a_context);
+			auto& bytes = f_as<t_bytes&>(p->v_bytes);
+			if (a_n > bytes.f_size()) a_n = bytes.f_size();
+			auto n = p->v_read(p->v_bytes, f_global()->f_as(0), f_global()->f_as(a_n));
+			f_check<int>(n, L"result of read");
+			a_n = f_as<int>(n);
+			std::copy_n(&bytes[0], a_n, a_p);
+			return a_n;
+		}, "f_read");
 	}
 	static int f_close(void* a_context)
 	{
 		auto p = static_cast<t_context*>(a_context);
-		p->v_close();
+		auto n = f_try([&]
+		{
+			p->v_close();
+			return 0;
+		}, "f_close");
 		delete p;
-		return 0;
+		return n;
 	}
 
 	t_rvalue v_read;
