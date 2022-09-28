@@ -449,7 +449,7 @@ namespace xemmai
 template<>
 struct t_type_of<xemmaix::libxml::t_text_writer> : t_derivable<t_holds<xemmaix::libxml::t_text_writer>>
 {
-	typedef xemmaix::libxml::t_library t_library;
+	using t_library = xemmaix::libxml::t_library;
 
 	static void f_define(t_library* a_library);
 
