@@ -8,8 +8,7 @@ namespace
 
 struct t_context
 {
-	template<typename T>
-	static int f_try(T a_do, const char* a_at)
+	static int f_try(auto a_do, const char* a_at)
 	{
 		try {
 			try {
