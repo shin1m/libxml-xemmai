@@ -35,7 +35,7 @@ struct t_context
 			auto p = static_cast<t_context*>(a_context);
 			auto& bytes = f_as<t_bytes&>(p->v_bytes);
 			if (a_n > bytes.f_size()) a_n = bytes.f_size();
-			auto n = p->v_read(p->v_bytes, f_global()->f_as(0), f_global()->f_as(a_n));
+			auto n = p->v_read(p->v_bytes, 0, a_n);
 			f_check<int>(n, L"result of read");
 			a_n = f_as<int>(n);
 			std::copy_n(&bytes[0], a_n, a_p);

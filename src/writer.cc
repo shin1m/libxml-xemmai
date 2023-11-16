@@ -15,7 +15,7 @@ struct t_context
 		if (a_n > bytes.f_size()) a_n = bytes.f_size();
 		std::copy_n(a_p, a_n, &bytes[0]);
 		try {
-			p->v_write(p->v_bytes, f_global()->f_as(0), f_global()->f_as(a_n));
+			p->v_write(p->v_bytes, 0, a_n);
 			return a_n;
 		} catch (...) {
 			return -1;
