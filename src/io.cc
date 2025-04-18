@@ -22,8 +22,8 @@ void t_type_of<xemmaix::libxml::t_http>::f_define(t_library* a_library)
 {
 	using namespace xemmaix::libxml;
 	t_define{a_library}
-		(L"close"sv, t_member<void(t_http::*)(), &t_http::f_close>())
-		(L"read"sv, t_member<size_t(t_http::*)(t_bytes&, size_t, size_t), &t_http::f_read>())
+	(L"close"sv, t_member<void(t_http::*)(), &t_http::f_close>())
+	(L"read"sv, t_member<size_t(t_http::*)(t_bytes&, size_t, size_t), &t_http::f_read>())
 	.f_derive<t_http, t_object>();
 }
 

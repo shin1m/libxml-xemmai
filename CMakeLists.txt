@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
-project(libxml-xemmai VERSION 202306)
-find_package(xemmai 202306 REQUIRED)
+project(libxml-xemmai VERSION 202504)
+find_package(xemmai 202504 REQUIRED)
 find_package(LibXml2 2.7 REQUIRED)
 find_package(CURL 7.50 REQUIRED)
 add_subdirectory(src)

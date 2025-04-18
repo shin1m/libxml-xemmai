@@ -71,14 +71,14 @@ std::vector<std::pair<t_root, t_rvalue>> t_library::f_define()
 	t_type_of<t_text_writer>::f_define(this);
 	t_type_of<t_http>::f_define(this);
 	return t_define(this)
-		(L"ParserSeverities"sv, t_type_of<xmlParserSeverities>::f_define(this))
-		(L"TextReaderMode"sv, t_type_of<xmlTextReaderMode>::f_define(this))
-		(L"ParserProperties"sv, t_type_of<xmlParserProperties>::f_define(this))
-		(L"ReaderTypes"sv, t_type_of<xmlReaderTypes>::f_define(this))
-		(L"TextReader"sv, static_cast<t_object*>(v_type_text_reader))
-		(L"TextWriter"sv, static_cast<t_object*>(v_type_text_writer))
-		(L"Http"sv, static_cast<t_object*>(v_type_http))
-//		(L"main"sv, t_static<void(*)(t_library*, const t_pvalue&), f_main>())
+	(L"ParserSeverities"sv, t_type_of<xmlParserSeverities>::f_define(this))
+	(L"TextReaderMode"sv, t_type_of<xmlTextReaderMode>::f_define(this))
+	(L"ParserProperties"sv, t_type_of<xmlParserProperties>::f_define(this))
+	(L"ReaderTypes"sv, t_type_of<xmlReaderTypes>::f_define(this))
+	(L"TextReader"sv, static_cast<t_object*>(v_type_text_reader))
+	(L"TextWriter"sv, static_cast<t_object*>(v_type_text_writer))
+	(L"Http"sv, static_cast<t_object*>(v_type_http))
+//	(L"main"sv, t_static<void(*)(t_library*, const t_pvalue&), f_main>())
 	;
 }
 
