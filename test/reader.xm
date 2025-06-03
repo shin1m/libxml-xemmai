@@ -6,7 +6,7 @@ assert = @(x) x || throw Throwable("Assertion failed."
 array_equals = @(x, y)
 	n = x.size()
 	n == y.size() || return false
-	for i = 0; i < n; i = i + 1: x[i] == y[i] || return false
+	for i = 0; i < n; i = i + 1; x[i] == y[i] || return false
 	true
 
 source = @(bytes)
