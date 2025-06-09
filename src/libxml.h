@@ -1,9 +1,6 @@
 #ifndef XEMMAIX__LIBXML__LIBXML_H
 #define XEMMAIX__LIBXML__LIBXML_H
 
-#include <codecvt>
-#include <iterator>
-#include <locale>
 #include <xemmai/convert.h>
 #include <libxml/xmlreader.h>
 #include <libxml/xmlwriter.h>
@@ -18,18 +15,58 @@ class t_text_reader;
 class t_text_writer;
 class t_http;
 
+template<typename C0, typename C1>
+struct t_converter : private portable::t_iconv
+{
+	using portable::t_iconv::t_iconv;
+	int f_to(char** a_p, size_t* a_n, auto a_out) const
+	{
+		char cs[16];
+		char* p = cs;
+		size_t n = sizeof(cs);
+		while (iconv(v_cd, a_p, a_n, &p, &n) == size_t(-1)) {
+			auto e = errno;
+			if (e == EINTR) continue;
+			a_out(reinterpret_cast<const C1*>(cs), (p - cs) / sizeof(C1));
+			if (e != E2BIG) return e;
+			p = cs;
+			n = sizeof(cs);
+		}
+		a_out(reinterpret_cast<const C1*>(cs), (p - cs) / sizeof(C1));
+		return 0;
+	}
+	std::basic_string<C1> operator()(std::basic_string_view<C0> a_x) const
+	{
+		std::basic_string<C1> s;
+		auto p = reinterpret_cast<char*>(const_cast<C0*>(a_x.data()));
+		size_t n = a_x.size() * sizeof(C0);
+		auto append = [&](auto a_p, auto a_n)
+		{
+			s.append(a_p, a_p + a_n);
+		};
+		auto e = f_to(&p, &n, append);
+		if (e == 0) e = f_to(nullptr, nullptr, append);
+		if (e == 0) return s;
+		throw std::system_error(e, std::generic_category());
+	}
+};
+
 class t_utf8_converter
 {
-	std::wstring_convert<std::codecvt_utf8<wchar_t>> v_convert;
+	t_converter<wchar_t, char> v_to;
+	t_converter<char, wchar_t> v_from;
 
 public:
-	std::string f_convert(std::wstring_view a_x)
+	t_utf8_converter() : v_to("utf-8", "wchar_t"), v_from("wchar_t", "utf-8")
 	{
-		return v_convert.to_bytes(a_x.data(), a_x.data() + a_x.size());
 	}
-	std::wstring f_convert(std::string_view a_x)
+	std::string f_convert(std::wstring_view a_x) const
 	{
-		return v_convert.from_bytes(a_x.data(), a_x.data() + a_x.size());
+		return v_to(a_x);
+	}
+	std::wstring f_convert(std::string_view a_x) const
+	{
+		return v_from(a_x);
 	}
 };
 
